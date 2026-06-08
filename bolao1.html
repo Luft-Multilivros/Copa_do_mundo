@@ -119,6 +119,8 @@
         .legend-item .pts { font-weight: 700; color: #f0c040; }
         .saved-badge { display: inline-block; background: rgba(0,200,83,0.2); color: #00c853; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-top: 15px; }
         .readonly-badge { display: inline-block; background: rgba(255,255,255,0.1); color: #8899aa; padding: 4px 10px; border-radius: 15px; font-size: 11px; margin-left: 8px; }
+        .sync-badge { display: inline-block; background: rgba(0,150,255,0.2); color: #0096ff; padding: 4px 10px; border-radius: 15px; font-size: 11px; margin-left: 8px; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
 
         .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: rgba(0,200,83,0.9); color: #fff; padding: 14px 28px; border-radius: 12px; font-weight: 600; font-size: 14px; z-index: 10000; transition: transform 0.4s ease; }
         .toast.error { background: rgba(255,77,77,0.9); }
@@ -147,6 +149,22 @@
         .bet-item:last-child { border-bottom: none; }
         .bet-score { color: #00c853; font-weight: 700; }
 
+        /* Rodapé com crédito */
+        .app-footer {
+            text-align: center;
+            padding: 20px;
+            color: #556677;
+            font-size: 12px;
+            margin-top: auto;
+        }
+        .app-footer a {
+            color: #f0c040;
+            text-decoration: none;
+        }
+        .app-footer a:hover {
+            text-decoration: underline;
+        }
+
         @media (max-width: 480px) {
             .form-container { padding: 25px 20px; }
             .team { font-size: 12px; min-width: 60px; }
@@ -164,7 +182,7 @@
 <!-- TELA LOGIN -->
 <div id="screen-login" class="screen active">
     <div class="app-header">
-        <div class="trophy"></div>
+        <div class="trophy">🏆</div>
         <h1>Bolão Copa 2026</h1>
         <p>Faça suas apostas e dispute com seus amigos!</p>
     </div>
@@ -183,6 +201,7 @@
         <button class="btn btn-primary" onclick="doLogin()">Entrar</button>
         <div class="link-text">Não tem conta? <a onclick="showScreen('screen-register')">Cadastre-se aqui</a></div>
     </div>
+    <div class="app-footer">Criador: <a href="#" onclick="return false;">Edgar Marques</a></div>
 </div>
 
 <!-- TELA CADASTRO -->
@@ -211,6 +230,7 @@
         <button class="btn btn-primary" onclick="doRegister()">Cadastrar</button>
         <div class="link-text">Já tem conta? <a onclick="showScreen('screen-login')">Fazer login</a></div>
     </div>
+    <div class="app-footer">Criador: <a href="#" onclick="return false;">Edgar Marques</a></div>
 </div>
 
 <!-- TELA PRINCIPAL (USUÁRIO) -->
@@ -227,12 +247,13 @@
             <span class="arrow">›</span>
         </button>
         <button class="menu-btn" onclick="showRanking()">
-            <span class="icon"></span>
-            <span class="btn-label">Classificação<div class="btn-desc">Veja o ranking dos jogadores</div></span>
+            <span class="icon">🏅</span>
+            <span class="btn-label">Classificação<span class="sync-badge">🔄 Online</span><div class="btn-desc">Veja o ranking dos jogadores</div></span>
             <span class="arrow">›</span>
         </button>
     </div>
     <button class="btn-logout" style="margin-top: 30px;" onclick="doLogout()">🚪 Sair</button>
+    <div class="app-footer">Criador: <a href="#" onclick="return false;">Edgar Marques</a></div>
 </div>
 
 <!-- TELA ADMIN (RESULTADOS + USUÁRIOS) -->
@@ -250,6 +271,7 @@
         <button class="phase-tab" onclick="switchAdminView('users', this)">👥 Usuários & Apostas</button>
     </div>
     <div id="admin-container" class="scrollable"></div>
+    <div class="app-footer">Criador: <a href="#" onclick="return false;">Edgar Marques</a></div>
 </div>
 
 <!-- TELA APOSTAS -->
@@ -259,7 +281,7 @@
         <button class="btn-logout" onclick="doLogout()">🚪 Sair</button>
     </div>
     <div class="app-header" style="margin: 0 0 20px;">
-        <h1> Apostas</h1>
+        <h1>⚽ Apostas</h1>
         <p id="pred-status-text">Preencha os placares e salve</p>
     </div>
     <div class="phase-tabs">
@@ -271,26 +293,28 @@
     <button class="btn btn-save" style="max-width: 400px; margin: 15px 0 40px;" id="btn-save-predictions" onclick="confirmSavePredictions()">
         💾 Salvar Apostas
     </button>
+    <div class="app-footer">Criador: <a href="#" onclick="return false;">Edgar Marques</a></div>
 </div>
 
 <!-- TELA CLASSIFICAÇÃO -->
 <div id="screen-ranking" class="screen">
     <div class="header-bar">
         <button class="btn-back" onclick="showScreen('screen-home')">← Voltar</button>
-        <button class="btn-logout" onclick="doLogout()"> Sair</button>
+        <button class="btn-logout" onclick="doLogout()">🚪 Sair</button>
     </div>
     <div class="app-header" style="margin: 0 0 20px;">
         <h1>🏅 Classificação</h1>
-        <p>Pontuação independente por rodada</p>
+        <p>Pontuação independente por rodada <span class="sync-badge">🔄 Atualização Automática</span></p>
     </div>
     <div class="points-legend">
-        <h4> Como funciona a pontuação</h4>
+        <h4>📋 Como funciona a pontuação</h4>
         <div class="legend-item"><span>✅ Placar exato</span><span class="pts">3 pontos</span></div>
         <div class="legend-item"><span>🎯 Acertou vencedor/empate</span><span class="pts">1 ponto</span></div>
         <div class="legend-item"><span>❌ Errou</span><span class="pts">0 pontos</span></div>
-        <div class="legend-item" style="margin-top:5px; color:#8899aa; font-size:12px;">💡 Cada rodada começa do zero. Os pontos não se somam entre rodadas.</div>
+        <div class="legend-item" style="margin-top:5px; color:#8899aa; font-size:12px;">💡 Cada rodada começa do zero. Os pontos são calculados automaticamente!</div>
     </div>
     <div id="ranking-container" class="ranking-container scrollable"></div>
+    <div class="app-footer">Criador: <a href="#" onclick="return false;">Edgar Marques</a></div>
 </div>
 
 <!-- MODAL CONFIRMAÇÃO -->
@@ -308,21 +332,57 @@
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
+<!-- ==================== FIREBASE SDK ==================== -->
+<script type="module">
+    // Import Firebase
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+    import { getDatabase, ref, set, get, child, update, remove, onValue } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
+
+    // 🔥 CONFIGURAÇÕES DO FIREBASE
+    const firebaseConfig = {
+      apiKey: "AIzaSyBc7eRgKdg0UsL_7L5a3DctQfWRYs_fIc0",
+      authDomain: "n8n-edgar-479800.firebaseapp.com",
+      databaseURL: "https://n8n-edgar-479800-default-rtdb.firebaseio.com",
+      projectId: "n8n-edgar-479800",
+      storageBucket: "n8n-edgar-479800.firebasestorage.app",
+      messagingSenderId: "765923910800",
+      appId: "1:765923910800:web:aac04a7418dbdf884ce415",
+      measurementId: "G-DMC57VN1YL"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    // Tornar funções acessíveis globalmente
+    window.firebaseDB = db;
+    window.firebaseRef = ref;
+    window.firebaseSet = set;
+    window.firebaseGet = get;
+    window.firebaseChild = child;
+    window.firebaseUpdate = update;
+    window.firebaseRemove = remove;
+    window.firebaseOnValue = onValue;
+    
+    // Listener em tempo real para resultados
+    setupRealtimeListener();
+</script>
+
 <script>
 // ==================== CONFRONTOS OFICIAIS ====================
 const FLAGS = {
-    'México':'','África do Sul':'🇿🇦','Canadá':'','Bósnia e Herzegovina':'🇧🇦',
-    'Estados Unidos':'','Paraguai':'🇾','Catar':'🇶','Suíça':'🇨🇭',
-    'Brasil':'🇧🇷','Marrocos':'🇲','Haiti':'🇭','Escócia':'',
-    'Austrália':'🇦','Turquia':'🇹','Alemanha':'🇩🇪','Curaçau':'',
-    'Países Baixos':'🇳🇱','Japão':'🇯🇵','Holanda':'🇳🇱','Costa do Marfim':'',
-    'Equador':'🇨','Suécia':'🇸🇪','Tunísia':'🇹🇳','Espanha':'🇪🇸',
-    'Cabo Verde':'','Bélgica':'🇧🇪','Egito':'','Arábia Saudita':'🇸🇦',
-    'Uruguai':'🇺','Irã':'🇮🇷','Nova Zelândia':'','França':'🇫🇷',
-    'Senegal':'','Iraque':'','Noruega':'🇳🇴','Argentina':'',
-    'Argélia':'','Áustria':'🇦','Jordânia':'','Portugal':'🇹',
-    'RD Congo':'','Inglaterra':'󠁧󠁥','Croácia':'🇭🇷','Gana':'🇬🇭',
-    'Panamá':'🇵','Uzbequistão':'🇺🇿','Colômbia':'🇨🇴','Tchéquia':'🇨🇿',
+    'México':'🇲🇽','África do Sul':'🇿🇦','Canadá':'🇨🇦','Bósnia e Herzegovina':'🇧🇦',
+    'Estados Unidos':'🇺🇸','Paraguai':'🇵🇾','Catar':'🇶🇦','Suíça':'🇨🇭',
+    'Brasil':'🇧🇷','Marrocos':'🇲🇦','Haiti':'🇭🇹','Escócia':'🏴󠁧󠁢󠁳󠁣󠁴󠁿',
+    'Austrália':'🇦🇺','Turquia':'🇹🇷','Alemanha':'🇩🇪','Curaçau':'🇨🇼',
+    'Países Baixos':'🇳🇱','Japão':'🇯🇵','Holanda':'🇳🇱','Costa do Marfim':'🇨🇮',
+    'Equador':'🇪🇨','Suécia':'🇸🇪','Tunísia':'🇹🇳','Espanha':'🇪🇸',
+    'Cabo Verde':'🇨🇻','Bélgica':'🇧🇪','Egito':'🇪🇬','Arábia Saudita':'🇸🇦',
+    'Uruguai':'🇺🇾','Irã':'🇮🇷','Nova Zelândia':'🇳🇿','França':'🇫🇷',
+    'Senegal':'🇸🇳','Iraque':'🇮🇶','Noruega':'🇳🇴','Argentina':'🇦🇷',
+    'Argélia':'🇩🇿','Áustria':'🇦🇹','Jordânia':'🇯🇴','Portugal':'🇵🇹',
+    'RD Congo':'🇨🇩','Inglaterra':'🏴󠁧󠁢󠁥󠁮󠁧󠁿','Croácia':'🇭🇷','Gana':'🇬🇭',
+    'Panamá':'🇵🇦','Uzbequistão':'🇺🇿','Colômbia':'🇨🇴','Tchéquia':'🇨🇿',
     'Coreia do Sul':'🇰🇷','Chéquia':'🇨🇿','Bósnia':'🇧🇦'
 };
 
@@ -408,13 +468,69 @@ let currentUser = null;
 let currentRound = 0;
 let currentAdminView = 'results';
 
-// ==================== STORAGE ====================
-function getUsers() { return JSON.parse(localStorage.getItem('bolao_users') || '{}'); }
-function saveUsers(u) { localStorage.setItem('bolao_users', JSON.stringify(u)); }
-function getUserPredictions(username) { return JSON.parse(localStorage.getItem('bolao_preds_' + username) || '{}'); }
-function saveUserPredictions(username, data) { localStorage.setItem('bolao_preds_' + username, JSON.stringify(data)); }
-function getRealResults() { return JSON.parse(localStorage.getItem('bolao_results') || '{}'); }
-function saveRealResults(r) { localStorage.setItem('bolao_results', JSON.stringify(r)); }
+// ==================== LISTENER EM TEMPO REAL ====================
+function setupRealtimeListener() {
+    if (typeof window.firebaseDB !== 'undefined') {
+        const resultsRef = window.firebaseRef(window.firebaseDB, 'results');
+        window.firebaseOnValue(resultsRef, (snapshot) => {
+            // Quando houver mudança nos resultados, atualiza automaticamente
+            console.log('🔄 Resultados atualizados em tempo real!');
+            // Se estiver na tela de ranking, recarrega
+            if (document.getElementById('screen-ranking').classList.contains('active')) {
+                showRanking();
+            }
+        });
+    }
+}
+
+// ==================== STORAGE COM FIREBASE ====================
+async function getUsers() {
+    if (typeof window.firebaseDB !== 'undefined') {
+        const snapshot = await window.firebaseGet(window.firebaseRef(window.firebaseDB, 'users'));
+        return snapshot.exists() ? snapshot.val() : {};
+    }
+    return JSON.parse(localStorage.getItem('bolao_users') || '{}');
+}
+
+async function saveUsers(users) {
+    if (typeof window.firebaseDB !== 'undefined') {
+        await window.firebaseSet(window.firebaseRef(window.firebaseDB, 'users'), users);
+    } else {
+        localStorage.setItem('bolao_users', JSON.stringify(users));
+    }
+}
+
+async function getUserPredictions(username) {
+    if (typeof window.firebaseDB !== 'undefined') {
+        const snapshot = await window.firebaseGet(window.firebaseRef(window.firebaseDB, `predictions/${username}`));
+        return snapshot.exists() ? snapshot.val() : {};
+    }
+    return JSON.parse(localStorage.getItem('bolao_preds_' + username) || '{}');
+}
+
+async function saveUserPredictions(username, data) {
+    if (typeof window.firebaseDB !== 'undefined') {
+        await window.firebaseSet(window.firebaseRef(window.firebaseDB, `predictions/${username}`), data);
+    } else {
+        localStorage.setItem('bolao_preds_' + username, JSON.stringify(data));
+    }
+}
+
+async function getRealResults() {
+    if (typeof window.firebaseDB !== 'undefined') {
+        const snapshot = await window.firebaseGet(window.firebaseRef(window.firebaseDB, 'results'));
+        return snapshot.exists() ? snapshot.val() : {};
+    }
+    return JSON.parse(localStorage.getItem('bolao_results') || '{}');
+}
+
+async function saveRealResults(results) {
+    if (typeof window.firebaseDB !== 'undefined') {
+        await window.firebaseSet(window.firebaseRef(window.firebaseDB, 'results'), results);
+    } else {
+        localStorage.setItem('bolao_results', JSON.stringify(results));
+    }
+}
 
 // ==================== NAVEGAÇÃO ====================
 function showScreen(id) {
@@ -433,7 +549,7 @@ function showToast(msg, isError = false) {
 }
 
 // ==================== LOGIN COM ADMIN ====================
-function doLogin() {
+async function doLogin() {
     clearErrors();
     const name = document.getElementById('login-name').value.trim();
     const pass = document.getElementById('login-pass').value;
@@ -446,7 +562,7 @@ function doLogin() {
     }
 
     if (!name) { document.getElementById('login-name-error').textContent = 'Digite seu nome'; document.getElementById('login-name-error').classList.add('show'); return; }
-    const users = getUsers();
+    const users = await getUsers();
     if (!users[name]) { document.getElementById('login-name-error').textContent = 'Usuário não encontrado'; document.getElementById('login-name-error').classList.add('show'); return; }
     if (users[name].password !== pass) { document.getElementById('login-pass-error').classList.add('show'); return; }
     
@@ -458,7 +574,7 @@ function doLogin() {
 }
 
 // ==================== CADASTRO ====================
-function doRegister() {
+async function doRegister() {
     clearErrors();
     const name = document.getElementById('reg-name').value.trim();
     const pass = document.getElementById('reg-pass').value;
@@ -467,11 +583,11 @@ function doRegister() {
     if (!name) { document.getElementById('reg-name-error').textContent = 'Digite seu nome'; document.getElementById('reg-name-error').classList.add('show'); err = true; }
     if (!/^\d{4}$/.test(pass)) { document.getElementById('reg-pass-error').classList.add('show'); err = true; }
     if (pass !== pass2) { document.getElementById('reg-pass2-error').classList.add('show'); err = true; }
-    const users = getUsers();
+    const users = await getUsers();
     if (users[name]) { document.getElementById('reg-name-error').textContent = 'Este nome já está cadastrado!'; document.getElementById('reg-name-error').classList.add('show'); err = true; }
     if (err) return;
     users[name] = { password: pass, createdAt: new Date().toISOString() };
-    saveUsers(users);
+    await saveUsers(users);
     showToast('✅ Conta criada com sucesso!');
     document.getElementById('reg-name').value = '';
     document.getElementById('reg-pass').value = '';
@@ -497,15 +613,15 @@ function switchAdminView(view, el) {
 
 function renderAdminResults() {
     const container = document.getElementById('admin-container');
-    const realResults = getRealResults();
-    
-    let html = `<div class="phase-tabs" style="margin-bottom:20px;">
-        <button class="phase-tab active" onclick="switchAdminRound(0, this)">1ª Rodada</button>
-        <button class="phase-tab" onclick="switchAdminRound(1, this)">2ª Rodada</button>
-        <button class="phase-tab" onclick="switchAdminRound(2, this)">3ª Rodada</button>
-    </div><div id="admin-results-content"></div>`;
-    container.innerHTML = html;
-    renderAdminRoundContent(0);
+    getRealResults().then(realResults => {
+        let html = `<div class="phase-tabs" style="margin-bottom:20px;">
+            <button class="phase-tab active" onclick="switchAdminRound(0, this)">1ª Rodada</button>
+            <button class="phase-tab" onclick="switchAdminRound(1, this)">2ª Rodada</button>
+            <button class="phase-tab" onclick="switchAdminRound(2, this)">3ª Rodada</button>
+        </div><div id="admin-results-content"></div>`;
+        container.innerHTML = html;
+        renderAdminRoundContent(0);
+    });
 }
 
 function switchAdminRound(round, el) {
@@ -516,46 +632,47 @@ function switchAdminRound(round, el) {
 
 function renderAdminRoundContent(round) {
     const container = document.getElementById('admin-results-content');
-    const realResults = getRealResults();
-    const matches = allRounds[round];
+    getRealResults().then(realResults => {
+        const matches = allRounds[round];
 
-    const grouped = {};
-    matches.forEach(m => {
-        if (!grouped[m.group]) grouped[m.group] = [];
-        grouped[m.group].push(m);
-    });
-
-    let html = '';
-    Object.keys(grouped).sort().forEach(gKey => {
-        html += `<div class="group-section"><div class="group-title">🏟️ Grupo ${gKey}</div>`;
-        grouped[gKey].forEach(m => {
-            const matchId = `r${round}_${m.id}`;
-            const result = realResults[matchId];
-            const hScore = result ? result.home : '';
-            const aScore = result ? result.away : '';
-
-            html += `
-            <div class="match-card ${result ? 'admin-result' : ''}">
-                <div class="match-date">📅 ${m.date} ${m.time ? '•'+m.time : ''}</div>
-                <div class="match-teams">
-                    <div class="team"><span class="flag">${getFlag(m.home)}</span>${m.home}</div>
-                    <span class="match-vs">VS</span>
-                    <div class="team"><span class="flag">${getFlag(m.away)}</span>${m.away}</div>
-                </div>
-                <div class="score-inputs">
-                    <input type="number" class="admin-input" min="0" max="99" value="${hScore}" id="a_${matchId}_h" placeholder="-">
-                    <span class="vs-text">✕</span>
-                    <input type="number" class="admin-input" min="0" max="99" value="${aScore}" id="a_${matchId}_a" placeholder="-">
-                    <button class="btn btn-admin-save" onclick="saveAdminResult('${matchId}')">💾 Salvar</button>
-                </div>
-            </div>`;
+        const grouped = {};
+        matches.forEach(m => {
+            if (!grouped[m.group]) grouped[m.group] = [];
+            grouped[m.group].push(m);
         });
-        html += '</div>';
+
+        let html = '';
+        Object.keys(grouped).sort().forEach(gKey => {
+            html += `<div class="group-section"><div class="group-title">🏟️ Grupo ${gKey}</div>`;
+            grouped[gKey].forEach(m => {
+                const matchId = `r${round}_${m.id}`;
+                const result = realResults[matchId];
+                const hScore = result ? result.home : '';
+                const aScore = result ? result.away : '';
+
+                html += `
+                <div class="match-card ${result ? 'admin-result' : ''}">
+                    <div class="match-date">📅 ${m.date} ${m.time ? '•'+m.time : ''}</div>
+                    <div class="match-teams">
+                        <div class="team"><span class="flag">${getFlag(m.home)}</span>${m.home}</div>
+                        <span class="match-vs">VS</span>
+                        <div class="team"><span class="flag">${getFlag(m.away)}</span>${m.away}</div>
+                    </div>
+                    <div class="score-inputs">
+                        <input type="number" class="admin-input" min="0" max="99" value="${hScore}" id="a_${matchId}_h" placeholder="-">
+                        <span class="vs-text">✕</span>
+                        <input type="number" class="admin-input" min="0" max="99" value="${aScore}" id="a_${matchId}_a" placeholder="-">
+                        <button class="btn btn-admin-save" onclick="saveAdminResult('${matchId}')">💾 Salvar</button>
+                    </div>
+                </div>`;
+            });
+            html += '</div>';
+        });
+        container.innerHTML = html;
     });
-    container.innerHTML = html;
 }
 
-function saveAdminResult(matchId) {
+async function saveAdminResult(matchId) {
     const hVal = document.getElementById(`a_${matchId}_h`).value;
     const aVal = document.getElementById(`a_${matchId}_a`).value;
     
@@ -564,18 +681,25 @@ function saveAdminResult(matchId) {
         return;
     }
 
-    const results = getRealResults();
+    const results = await getRealResults();
     results[matchId] = { home: parseInt(hVal), away: parseInt(aVal) };
-    saveRealResults(results);
+    await saveRealResults(results);
     
-    showToast('✅ Resultado oficial salvo!');
+    showToast('✅ Resultado salvo! Pontos atualizados automaticamente! 🎯');
+    
+    // Atualiza a visualização
     renderAdminRoundContent(parseInt(matchId.split('_')[0].replace('r','')));
+    
+    // Força atualização do ranking se estiver visível
+    if (document.getElementById('screen-ranking').classList.contains('active')) {
+        showRanking();
+    }
 }
 
 // ==================== ADMIN: USUÁRIOS & APOSTAS ====================
-function renderAdminUsers() {
+async function renderAdminUsers() {
     const container = document.getElementById('admin-container');
-    const users = getUsers();
+    const users = await getUsers();
     
     let html = '<div class="group-section"><div class="group-title">🔑 Cadastro de Usuários</div>';
     let userCount = 0;
@@ -585,7 +709,7 @@ function renderAdminUsers() {
         html += `<div class="user-row">
             <div class="user-info">
                 <span class="user-name">👤 ${name}</span>
-                <span class="user-pass"> Senha: ${users[name].password}</span>
+                <span class="user-pass">🔑 Senha: ${users[name].password}</span>
             </div>
             <button class="btn-delete-user" onclick="deleteUser('${name}')">🗑️ Deletar</button>
         </div>`;
@@ -595,20 +719,20 @@ function renderAdminUsers() {
 
     html += '<div class="group-section"><div class="group-title">📝 Apostas Salvas <span class="readonly-badge">🔒 Somente Leitura</span></div>';
     let hasAnyBets = false;
-    Object.keys(users).forEach(name => {
-        if(name === 'admin') return;
-        const preds = getUserPredictions(name);
+    for (const name of Object.keys(users)) {
+        if(name === 'admin') continue;
+        const preds = await getUserPredictions(name);
         const hasBets = preds['round_0']?._saved || preds['round_1']?._saved || preds['round_2']?._saved;
-        if(!hasBets) return;
+        if(!hasBets) continue;
         hasAnyBets = true;
 
         html += `<div style="margin-bottom:15px; padding:12px; background:rgba(255,255,255,0.03); border-radius:12px; border:1px solid rgba(255,255,255,0.05);">
             <div style="color:#f0c040; font-weight:bold; margin-bottom:10px; font-size:15px;">👤 ${name}</div>`;
         
-        [0,1,2].forEach(round => {
+        for (let round = 0; round < 3; round++) {
             const rp = preds['round_'+round];
             if(rp && rp._saved) {
-                html += `<div class="bet-group"><div class="bet-round-title"> Rodada ${round+1}</div>`;
+                html += `<div class="bet-group"><div class="bet-round-title">🏆 Rodada ${round+1}</div>`;
                 Object.keys(rp).forEach(key => {
                     if(key === '_saved') return;
                     const m = getMatchFromKey(key);
@@ -621,9 +745,9 @@ function renderAdminUsers() {
                 });
                 html += '</div>';
             }
-        });
+        }
         html += '</div>';
-    });
+    }
     if(!hasAnyBets) html += '<p style="color:#556677; text-align:center; padding:10px;">Nenhuma aposta registrada ainda.</p>';
     html += '</div>';
     
@@ -641,13 +765,13 @@ function getMatchFromKey(key) {
 }
 
 // ==================== DELETAR USUÁRIO ====================
-function deleteUser(name) {
+async function deleteUser(name) {
     if (confirm(`Tem certeza que deseja APAGAR o usuário "${name}" e todas as apostas dele?`)) {
-        const users = getUsers();
+        const users = await getUsers();
         if (users[name]) {
             delete users[name];
-            saveUsers(users);
-            localStorage.removeItem('bolao_preds_' + name);
+            await saveUsers(users);
+            await saveUserPredictions(name, {});
             showToast(`🗑️ Usuário ${name} excluído com sucesso!`);
             renderAdminUsers();
         }
@@ -670,9 +794,9 @@ function switchRound(round, el) {
 
 function getFlag(team) { return FLAGS[team] || '⚽'; }
 
-function renderPredictions() {
+async function renderPredictions() {
     const container = document.getElementById('predictions-container');
-    const preds = currentUser ? getUserPredictions(currentUser) : {};
+    const preds = currentUser ? await getUserPredictions(currentUser) : {};
     const roundPreds = preds['round_' + currentRound] || {};
     const isRoundSaved = roundPreds._saved === true;
 
@@ -724,7 +848,7 @@ function renderPredictions() {
 function confirmSavePredictions() { document.getElementById('modal-confirm').classList.add('show'); }
 function closeModal() { document.getElementById('modal-confirm').classList.remove('show'); }
 
-function savePredictions() {
+async function savePredictions() {
     closeModal();
     const matches = allRounds[currentRound];
     const roundPreds = {};
@@ -746,18 +870,18 @@ function savePredictions() {
     if (!allFilled) { showToast('❌ Preencha todos os jogos antes de salvar!', true); return; }
 
     roundPreds._saved = true;
-    const preds = getUserPredictions(currentUser);
+    const preds = await getUserPredictions(currentUser);
     preds['round_' + currentRound] = roundPreds;
-    saveUserPredictions(currentUser, preds);
+    await saveUserPredictions(currentUser, preds);
 
     showToast('✅ Apostas da ' + (currentRound+1) + 'ª rodada salvas!');
     renderPredictions();
 }
 
-// ==================== CLASSIFICAÇÃO (CORRIGIDO) ====================
-function calculatePointsForRound(username, roundIndex) {
-    const preds = getUserPredictions(username);
-    const results = getRealResults();
+// ==================== CLASSIFICAÇÃO ====================
+async function calculatePointsForRound(username, roundIndex) {
+    const preds = await getUserPredictions(username);
+    const results = await getRealResults();
     const roundPreds = preds['round_' + roundIndex];
     if (!roundPreds || !roundPreds._saved) return 0;
 
@@ -778,34 +902,31 @@ function calculatePointsForRound(username, roundIndex) {
     return total;
 }
 
-// ✅ FUNÇÃO CORRIGIDA: SEMPRE NAVEGA PARA A TELA DE RANKING
-function showRanking() {
-    const users = getUsers();
+async function showRanking() {
+    const users = await getUsers();
     const rankings = [];
     
-    Object.keys(users).forEach(username => {
-        if (username === 'admin') return; // Pula o admin
-        const preds = getUserPredictions(username);
+    for (const username of Object.keys(users)) {
+        if (username === 'admin') continue;
+        const preds = await getUserPredictions(username);
         const hasAnySaved = preds['round_0']?._saved || preds['round_1']?._saved || preds['round_2']?._saved;
-        if (!hasAnySaved) return;
+        if (!hasAnySaved) continue;
 
-        const r1 = calculatePointsForRound(username, 0);
-        const r2 = calculatePointsForRound(username, 1);
-        const r3 = calculatePointsForRound(username, 2);
+        const r1 = await calculatePointsForRound(username, 0);
+        const r2 = await calculatePointsForRound(username, 1);
+        const r3 = await calculatePointsForRound(username, 2);
         
         rankings.push({ 
             name: username, 
             r1, r2, r3, 
             total: r1 + r2 + r3 
         });
-    });
+    }
 
-    // Ordena pelo total
     rankings.sort((a, b) => b.total - a.total);
 
     const container = document.getElementById('ranking-container');
     
-    // ✅ Garante que SEMPRE renderiza algo e navega para a tela
     if (rankings.length === 0) {
         container.innerHTML = `<div class="empty-state"><div class="empty-icon">📭</div><p>Nenhuma aposta registrada ainda.</p></div>`;
     } else {
@@ -814,7 +935,7 @@ function showRanking() {
             <table class="ranking-table">
                 <thead>
                     <tr>
-                        <th style="text-align:left;"> Usuário</th>
+                        <th style="text-align:left;">👤 Usuário</th>
                         <th>1ª Rod</th>
                         <th>2ª Rod</th>
                         <th>3ª Rod</th>
@@ -839,7 +960,6 @@ function showRanking() {
         container.innerHTML = html;
     }
     
-    // ✅ NUNCA FAZ RETURN ANTES DISSO
     showScreen('screen-ranking');
 }
 
