@@ -149,7 +149,6 @@
         .bet-item:last-child { border-bottom: none; }
         .bet-score { color: #00c853; font-weight: 700; }
 
-        /* Rodapé com crédito */
         .app-footer {
             text-align: center;
             padding: 20px;
@@ -334,11 +333,9 @@
 
 <!-- ==================== FIREBASE SDK ==================== -->
 <script type="module">
-    // Import Firebase
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
     import { getDatabase, ref, set, get, child, update, remove, onValue } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
 
-    // 🔥 CONFIGURAÇÕES DO FIREBASE
     const firebaseConfig = {
       apiKey: "AIzaSyBc7eRgKdg0UsL_7L5a3DctQfWRYs_fIc0",
       authDomain: "n8n-edgar-479800.firebaseapp.com",
@@ -350,11 +347,9 @@
       measurementId: "G-DMC57VN1YL"
     };
 
-    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    // Tornar funções acessíveis globalmente
     window.firebaseDB = db;
     window.firebaseRef = ref;
     window.firebaseSet = set;
@@ -364,7 +359,6 @@
     window.firebaseRemove = remove;
     window.firebaseOnValue = onValue;
     
-    // Listener em tempo real para resultados
     setupRealtimeListener();
 </script>
 
@@ -413,7 +407,7 @@ const round1 = [
     {id:22, group:'K', home:'Uzbequistão', away:'Colômbia', date:'Qua 17/06', time:'23h00'}
 ];
 
-// 2ª Rodada
+// 2ª Rodada - ATUALIZADA COM NOVOS JOGOS
 const round2 = [
     {id:0, group:'A', home:'Tchéquia', away:'África do Sul', date:'Qua 18/06', time:'13h00'},
     {id:1, group:'B', home:'Suíça', away:'Bósnia e Herzegovina', date:'Qua 18/06', time:'16h00'},
@@ -430,13 +424,24 @@ const round2 = [
     {id:12, group:'H', home:'Espanha', away:'Arábia Saudita', date:'Sáb 21/06', time:'13h00'},
     {id:13, group:'G', home:'Bélgica', away:'Irã', date:'Sáb 21/06', time:'16h00'},
     {id:14, group:'H', home:'Uruguai', away:'Cabo Verde', date:'Sáb 21/06', time:'19h00'},
-    {id:15, group:'G', home:'Nova Zelândia', away:'Egito', date:'Sáb 21/06', time:'22h00'}
+    {id:15, group:'G', home:'Nova Zelândia', away:'Egito', date:'Sáb 21/06', time:'22h00'},
+    // NOVOS JOGOS ADICIONADOS:
+    {id:16, group:'J', home:'Argentina', away:'Áustria', date:'Seg 22/06', time:'14h00'},
+    {id:17, group:'I', home:'França', away:'Iraque', date:'Seg 22/06', time:'18h00'},
+    {id:18, group:'I', home:'Noruega', away:'Senegal', date:'Seg 22/06', time:'21h00'},
+    {id:19, group:'J', home:'Jordânia', away:'Argélia', date:'Ter 23/06', time:'00h00'},
+    {id:20, group:'K', home:'Portugal', away:'Uzbequistão', date:'Ter 23/06', time:'14h00'},
+    {id:21, group:'L', home:'Inglaterra', away:'Gana', date:'Ter 23/06', time:'17h00'},
+    {id:22, group:'L', home:'Panamá', away:'Croácia', date:'Ter 23/06', time:'20h00'},
+    {id:23, group:'K', home:'Colômbia', away:'RD Congo', date:'Ter 23/06', time:'23h00'}
 ];
 
-// 3ª Rodada
+// 3ª Rodada - CORRIGIDA
 const round3 = [
-    {id:0, group:'A', home:'México', away:'África do Sul', date:'Qua 24/06'},
-    {id:1, group:'A', home:'Coreia do Sul', away:'Tchéquia', date:'Qua 24/06'},
+    // GRUPO A CORRIGIDO:
+    {id:0, group:'A', home:'África do Sul', away:'Coreia do Sul', date:'Seg 22/06', time:'22h00'},
+    {id:1, group:'A', home:'Tchéquia', away:'México', date:'Seg 22/06', time:'22h00'},
+    // RESTO DOS JOGOS:
     {id:2, group:'B', home:'Canadá', away:'Bósnia', date:'Qua 24/06'},
     {id:3, group:'B', home:'Catar', away:'Suíça', date:'Qua 24/06'},
     {id:4, group:'C', home:'Escócia', away:'Brasil', date:'Qua 24/06'},
@@ -473,9 +478,7 @@ function setupRealtimeListener() {
     if (typeof window.firebaseDB !== 'undefined') {
         const resultsRef = window.firebaseRef(window.firebaseDB, 'results');
         window.firebaseOnValue(resultsRef, (snapshot) => {
-            // Quando houver mudança nos resultados, atualiza automaticamente
             console.log('🔄 Resultados atualizados em tempo real!');
-            // Se estiver na tela de ranking, recarrega
             if (document.getElementById('screen-ranking').classList.contains('active')) {
                 showRanking();
             }
@@ -687,10 +690,8 @@ async function saveAdminResult(matchId) {
     
     showToast('✅ Resultado salvo! Pontos atualizados automaticamente! 🎯');
     
-    // Atualiza a visualização
     renderAdminRoundContent(parseInt(matchId.split('_')[0].replace('r','')));
     
-    // Força atualização do ranking se estiver visível
     if (document.getElementById('screen-ranking').classList.contains('active')) {
         showRanking();
     }
