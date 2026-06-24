@@ -181,7 +181,7 @@
 <!-- TELA LOGIN -->
 <div id="screen-login" class="screen active">
     <div class="app-header">
-        <div class="trophy">🏆</div>
+        <div class="trophy"></div>
         <h1>Bolão Copa 2026</h1>
         <p>Faça suas apostas e dispute com seus amigos!</p>
     </div>
@@ -206,11 +206,11 @@
 <!-- TELA CADASTRO -->
 <div id="screen-register" class="screen">
     <div class="app-header">
-        <div class="trophy">📝</div>
+        <div class="trophy"></div>
         <h1>Cadastro</h1>
     </div>
     <div class="form-container">
-        <h2>🆕 Criar Conta</h2>
+        <h2> Criar Conta</h2>
         <div class="form-group">
             <label>Nome completo</label>
             <input type="text" id="reg-name" placeholder="Seu nome completo" autocomplete="off">
@@ -247,7 +247,7 @@
         </button>
         <button class="menu-btn" onclick="showRanking()">
             <span class="icon">🏅</span>
-            <span class="btn-label">Classificação<span class="sync-badge">🔄 Online</span><div class="btn-desc">Veja o ranking dos jogadores</div></span>
+            <span class="btn-label">Classificação<span class="sync-badge"> Online</span><div class="btn-desc">Veja o ranking dos jogadores</div></span>
             <span class="arrow">›</span>
         </button>
     </div>
@@ -299,7 +299,7 @@
 <div id="screen-ranking" class="screen">
     <div class="header-bar">
         <button class="btn-back" onclick="showScreen('screen-home')">← Voltar</button>
-        <button class="btn-logout" onclick="doLogout()">🚪 Sair</button>
+        <button class="btn-logout" onclick="doLogout()"> Sair</button>
     </div>
     <div class="app-header" style="margin: 0 0 20px;">
         <h1>🏅 Classificação</h1>
@@ -365,17 +365,17 @@
 <script>
 // ==================== CONFRONTOS OFICIAIS ====================
 const FLAGS = {
-    'México':'🇲🇽','África do Sul':'🇿🇦','Canadá':'🇨🇦','Bósnia e Herzegovina':'🇧🇦',
+    'México':'🇲','África do Sul':'🇦','Canadá':'🇨','Bósnia e Herzegovina':'🇧🇦',
     'Estados Unidos':'🇺🇸','Paraguai':'🇵🇾','Catar':'🇶🇦','Suíça':'🇨🇭',
-    'Brasil':'🇧🇷','Marrocos':'🇲🇦','Haiti':'🇭🇹','Escócia':'🏴󠁧󠁢󠁳󠁣󠁴󠁿',
-    'Austrália':'🇦🇺','Turquia':'🇹🇷','Alemanha':'🇩🇪','Curaçau':'🇨🇼',
-    'Países Baixos':'🇳🇱','Japão':'🇯🇵','Holanda':'🇳🇱','Costa do Marfim':'🇨🇮',
-    'Equador':'🇪🇨','Suécia':'🇸🇪','Tunísia':'🇹🇳','Espanha':'🇪🇸',
-    'Cabo Verde':'🇨🇻','Bélgica':'🇧🇪','Egito':'🇪🇬','Arábia Saudita':'🇸🇦',
-    'Uruguai':'🇺🇾','Irã':'🇮🇷','Nova Zelândia':'🇳🇿','França':'🇫🇷',
-    'Senegal':'🇸🇳','Iraque':'🇮🇶','Noruega':'🇳🇴','Argentina':'🇦🇷',
+    'Brasil':'🇧🇷','Marrocos':'🇦','Haiti':'🇹','Escócia':'🏴󠁧󠁢󠁳󠁣󠁴󠁿',
+    'Austrália':'🇦','Turquia':'🇹🇷','Alemanha':'🇩🇪','Curaçau':'🇨🇼',
+    'Países Baixos':'🇳','Japão':'🇯🇵','Holanda':'🇳🇱','Costa do Marfim':'🇨🇮',
+    'Equador':'🇪','Suécia':'🇸🇪','Tunísia':'🇹🇳','Espanha':'🇪🇸',
+    'Cabo Verde':'🇨','Bélgica':'🇧','Egito':'🇪🇬','Arábia Saudita':'🇸',
+    'Uruguai':'🇺🇾','Irã':'🇮','Nova Zelândia':'🇳','França':'🇫🇷',
+    'Senegal':'🇸','Iraque':'🇮🇶','Noruega':'🇳🇴','Argentina':'🇦🇷',
     'Argélia':'🇩🇿','Áustria':'🇦🇹','Jordânia':'🇯🇴','Portugal':'🇵🇹',
-    'RD Congo':'🇨🇩','Inglaterra':'🏴󠁧󠁢󠁥󠁮󠁧󠁿','Croácia':'🇭🇷','Gana':'🇬🇭',
+    'RD Congo':'🇩','Inglaterra':'🏴󠁢󠁥󠁧󠁿','Croácia':'🇭🇷','Gana':'🇬🇭',
     'Panamá':'🇵🇦','Uzbequistão':'🇺🇿','Colômbia':'🇨🇴','Tchéquia':'🇨🇿',
     'Coreia do Sul':'🇰🇷','Chéquia':'🇨🇿','Bósnia':'🇧🇦'
 };
@@ -407,7 +407,7 @@ const round1 = [
     {id:22, group:'K', home:'Uzbequistão', away:'Colômbia', date:'Qua 17/06', time:'23h00'}
 ];
 
-// 2ª Rodada - ATUALIZADA COM NOVOS JOGOS
+// 2ª Rodada
 const round2 = [
     {id:0, group:'A', home:'Tchéquia', away:'África do Sul', date:'Qua 18/06', time:'13h00'},
     {id:1, group:'B', home:'Suíça', away:'Bósnia e Herzegovina', date:'Qua 18/06', time:'16h00'},
@@ -425,7 +425,6 @@ const round2 = [
     {id:13, group:'G', home:'Bélgica', away:'Irã', date:'Sáb 21/06', time:'16h00'},
     {id:14, group:'H', home:'Uruguai', away:'Cabo Verde', date:'Sáb 21/06', time:'19h00'},
     {id:15, group:'G', home:'Nova Zelândia', away:'Egito', date:'Sáb 21/06', time:'22h00'},
-    // NOVOS JOGOS ADICIONADOS:
     {id:16, group:'J', home:'Argentina', away:'Áustria', date:'Seg 22/06', time:'14h00'},
     {id:17, group:'I', home:'França', away:'Iraque', date:'Seg 22/06', time:'18h00'},
     {id:18, group:'I', home:'Noruega', away:'Senegal', date:'Seg 22/06', time:'21h00'},
@@ -436,12 +435,10 @@ const round2 = [
     {id:23, group:'K', home:'Colômbia', away:'RD Congo', date:'Ter 23/06', time:'23h00'}
 ];
 
-// 3ª Rodada - CORRIGIDA
+// 3ª Rodada - CORRIGIDA (Grupos J e K com times corretos)
 const round3 = [
-    // GRUPO A CORRIGIDO:
     {id:0, group:'A', home:'África do Sul', away:'Coreia do Sul', date:'Seg 22/06', time:'22h00'},
     {id:1, group:'A', home:'Tchéquia', away:'México', date:'Seg 22/06', time:'22h00'},
-    // RESTO DOS JOGOS:
     {id:2, group:'B', home:'Canadá', away:'Bósnia', date:'Qua 24/06'},
     {id:3, group:'B', home:'Catar', away:'Suíça', date:'Qua 24/06'},
     {id:4, group:'C', home:'Escócia', away:'Brasil', date:'Qua 24/06'},
@@ -458,12 +455,13 @@ const round3 = [
     {id:15, group:'H', home:'Uruguai', away:'Espanha', date:'Sex 26/06'},
     {id:16, group:'I', home:'Noruega', away:'França', date:'Sex 26/06'},
     {id:17, group:'I', home:'Senegal', away:'Iraque', date:'Sex 26/06'},
-    {id:18, group:'J', home:'Argentina', away:'Argélia', date:'Sáb 27/06'},
-    {id:19, group:'J', home:'Áustria', away:'Jordânia', date:'Sáb 27/06'},
-    {id:20, group:'K', home:'Portugal', away:'RD Congo', date:'Sáb 27/06'},
-    {id:21, group:'K', home:'Uzbequistão', away:'Colômbia', date:'Sáb 27/06'},
-    {id:22, group:'L', home:'Panamá', away:'Inglaterra', date:'Sáb 27/06'},
-    {id:23, group:'L', home:'Croácia', away:'Gana', date:'Sáb 27/06'}
+    // GRUPOS J E K CORRIGIDOS:
+    {id:18, group:'K', home:'Colômbia', away:'Portugal', date:'Sáb 27/06', time:'15h00'},
+    {id:19, group:'K', home:'RD Congo', away:'Uzbequistão', date:'Sáb 27/06', time:'15h00'},
+    {id:20, group:'J', home:'Argélia', away:'Áustria', date:'Sáb 27/06', time:'18h00'},
+    {id:21, group:'J', home:'Jordânia', away:'Argentina', date:'Sáb 27/06', time:'18h00'},
+    {id:22, group:'L', home:'Panamá', away:'Inglaterra', date:'Sáb 27/06', time:'21h00'},
+    {id:23, group:'L', home:'Gana', away:'Croácia', date:'Sáb 27/06', time:'21h00'}
 ];
 
 const allRounds = [round1, round2, round3];
@@ -663,7 +661,7 @@ function renderAdminRoundContent(round) {
                     </div>
                     <div class="score-inputs">
                         <input type="number" class="admin-input" min="0" max="99" value="${hScore}" id="a_${matchId}_h" placeholder="-">
-                        <span class="vs-text">✕</span>
+                        <span class="vs-text"></span>
                         <input type="number" class="admin-input" min="0" max="99" value="${aScore}" id="a_${matchId}_a" placeholder="-">
                         <button class="btn btn-admin-save" onclick="saveAdminResult('${matchId}')">💾 Salvar</button>
                     </div>
@@ -710,9 +708,9 @@ async function renderAdminUsers() {
         html += `<div class="user-row">
             <div class="user-info">
                 <span class="user-name">👤 ${name}</span>
-                <span class="user-pass">🔑 Senha: ${users[name].password}</span>
+                <span class="user-pass"> Senha: ${users[name].password}</span>
             </div>
-            <button class="btn-delete-user" onclick="deleteUser('${name}')">🗑️ Deletar</button>
+            <button class="btn-delete-user" onclick="deleteUser('${name}')">️ Deletar</button>
         </div>`;
     });
     if(userCount === 0) html += '<p style="color:#556677; text-align:center; padding:10px;">Nenhum usuário cadastrado ainda.</p>';
@@ -773,7 +771,7 @@ async function deleteUser(name) {
             delete users[name];
             await saveUsers(users);
             await saveUserPredictions(name, {});
-            showToast(`🗑️ Usuário ${name} excluído com sucesso!`);
+            showToast(`️ Usuário ${name} excluído com sucesso!`);
             renderAdminUsers();
         }
     }
@@ -793,7 +791,7 @@ function switchRound(round, el) {
     renderPredictions();
 }
 
-function getFlag(team) { return FLAGS[team] || '⚽'; }
+function getFlag(team) { return FLAGS[team] || ''; }
 
 async function renderPredictions() {
     const container = document.getElementById('predictions-container');
