@@ -181,7 +181,7 @@
 <!-- TELA LOGIN -->
 <div id="screen-login" class="screen active">
     <div class="app-header">
-        <div class="trophy"></div>
+        <div class="trophy">🏆</div>
         <h1>Bolão Copa 2026</h1>
         <p>Faça suas apostas e dispute com seus amigos!</p>
     </div>
@@ -206,11 +206,11 @@
 <!-- TELA CADASTRO -->
 <div id="screen-register" class="screen">
     <div class="app-header">
-        <div class="trophy"></div>
+        <div class="trophy">📝</div>
         <h1>Cadastro</h1>
     </div>
     <div class="form-container">
-        <h2> Criar Conta</h2>
+        <h2>🆕 Criar Conta</h2>
         <div class="form-group">
             <label>Nome completo</label>
             <input type="text" id="reg-name" placeholder="Seu nome completo" autocomplete="off">
@@ -235,7 +235,7 @@
 <!-- TELA PRINCIPAL (USUÁRIO) -->
 <div id="screen-home" class="screen">
     <div class="app-header">
-        <div class="trophy">🏆</div>
+        <div class="trophy"></div>
         <h1>Bolão Copa 2026</h1>
     </div>
     <p class="welcome-user">Olá, <span id="welcome-name"></span>! 👋</p>
@@ -247,7 +247,7 @@
         </button>
         <button class="menu-btn" onclick="showRanking()">
             <span class="icon">🏅</span>
-            <span class="btn-label">Classificação<span class="sync-badge"> Online</span><div class="btn-desc">Veja o ranking dos jogadores</div></span>
+            <span class="btn-label">Classificação<span class="sync-badge">🔄 Online</span><div class="btn-desc">Veja o ranking dos jogadores</div></span>
             <span class="arrow">›</span>
         </button>
     </div>
@@ -277,16 +277,18 @@
 <div id="screen-predictions" class="screen">
     <div class="header-bar">
         <button class="btn-back" onclick="showScreen('screen-home')">← Voltar</button>
-        <button class="btn-logout" onclick="doLogout()">🚪 Sair</button>
+        <button class="btn-logout" onclick="doLogout()"> Sair</button>
     </div>
     <div class="app-header" style="margin: 0 0 20px;">
         <h1>⚽ Apostas</h1>
         <p id="pred-status-text">Preencha os placares e salve</p>
     </div>
     <div class="phase-tabs">
-        <button class="phase-tab active" onclick="switchRound(0, this)">1ª Rodada</button>
-        <button class="phase-tab" onclick="switchRound(1, this)">2ª Rodada</button>
-        <button class="phase-tab" onclick="switchRound(2, this)">3ª Rodada</button>
+        <button class="phase-tab active" onclick="switchRound(0, this)">16 Avos</button>
+        <button class="phase-tab" onclick="switchRound(1, this)">Oitavas</button>
+        <button class="phase-tab" onclick="switchRound(2, this)">Quartas</button>
+        <button class="phase-tab" onclick="switchRound(3, this)">Semi</button>
+        <button class="phase-tab" onclick="switchRound(4, this)">Final</button>
     </div>
     <div id="predictions-container" class="scrollable"></div>
     <button class="btn btn-save" style="max-width: 400px; margin: 15px 0 40px;" id="btn-save-predictions" onclick="confirmSavePredictions()">
@@ -299,18 +301,18 @@
 <div id="screen-ranking" class="screen">
     <div class="header-bar">
         <button class="btn-back" onclick="showScreen('screen-home')">← Voltar</button>
-        <button class="btn-logout" onclick="doLogout()"> Sair</button>
+        <button class="btn-logout" onclick="doLogout()">🚪 Sair</button>
     </div>
     <div class="app-header" style="margin: 0 0 20px;">
         <h1>🏅 Classificação</h1>
-        <p>Pontuação independente por rodada <span class="sync-badge">🔄 Atualização Automática</span></p>
+        <p>Pontuação por fase <span class="sync-badge">🔄 Atualização Automática</span></p>
     </div>
     <div class="points-legend">
         <h4>📋 Como funciona a pontuação</h4>
         <div class="legend-item"><span>✅ Placar exato</span><span class="pts">3 pontos</span></div>
         <div class="legend-item"><span>🎯 Acertou vencedor/empate</span><span class="pts">1 ponto</span></div>
         <div class="legend-item"><span>❌ Errou</span><span class="pts">0 pontos</span></div>
-        <div class="legend-item" style="margin-top:5px; color:#8899aa; font-size:12px;">💡 Cada rodada começa do zero. Os pontos são calculados automaticamente!</div>
+        <div class="legend-item" style="margin-top:5px; color:#8899aa; font-size:12px;">💡 Cada fase começa do zero. Os pontos são calculados automaticamente!</div>
     </div>
     <div id="ranking-container" class="ranking-container scrollable"></div>
     <div class="app-footer">Criador: <a href="#" onclick="return false;">Edgar Marques</a></div>
@@ -320,7 +322,7 @@
 <div class="modal-overlay" id="modal-confirm">
     <div class="modal">
         <h3>⚠️ Confirmar Apostas</h3>
-        <p>Após salvar, <strong>não será possível alterar</strong> seus palpites desta rodada. Deseja continuar?</p>
+        <p>Após salvar, <strong>não será possível alterar</strong> seus palpites desta fase. Deseja continuar?</p>
         <div class="modal-buttons">
             <button class="btn btn-cancel" onclick="closeModal()">Cancelar</button>
             <button class="btn btn-confirm" onclick="savePredictions()">Salvar</button>
@@ -365,106 +367,55 @@
 <script>
 // ==================== CONFRONTOS OFICIAIS ====================
 const FLAGS = {
-    'México':'🇲','África do Sul':'🇦','Canadá':'🇨','Bósnia e Herzegovina':'🇧🇦',
-    'Estados Unidos':'🇺🇸','Paraguai':'🇵🇾','Catar':'🇶🇦','Suíça':'🇨🇭',
-    'Brasil':'🇧🇷','Marrocos':'🇦','Haiti':'🇹','Escócia':'🏴󠁧󠁢󠁳󠁣󠁴󠁿',
-    'Austrália':'🇦','Turquia':'🇹🇷','Alemanha':'🇩🇪','Curaçau':'🇨🇼',
-    'Países Baixos':'🇳','Japão':'🇯🇵','Holanda':'🇳🇱','Costa do Marfim':'🇨🇮',
-    'Equador':'🇪','Suécia':'🇸🇪','Tunísia':'🇹🇳','Espanha':'🇪🇸',
-    'Cabo Verde':'🇨','Bélgica':'🇧','Egito':'🇪🇬','Arábia Saudita':'🇸',
-    'Uruguai':'🇺🇾','Irã':'🇮','Nova Zelândia':'🇳','França':'🇫🇷',
-    'Senegal':'🇸','Iraque':'🇮🇶','Noruega':'🇳🇴','Argentina':'🇦🇷',
-    'Argélia':'🇩🇿','Áustria':'🇦🇹','Jordânia':'🇯🇴','Portugal':'🇵🇹',
-    'RD Congo':'🇩','Inglaterra':'🏴󠁢󠁥󠁧󠁿','Croácia':'🇭🇷','Gana':'🇬🇭',
-    'Panamá':'🇵🇦','Uzbequistão':'🇺🇿','Colômbia':'🇨🇴','Tchéquia':'🇨🇿',
-    'Coreia do Sul':'🇰🇷','Chéquia':'🇨🇿','Bósnia':'🇧🇦'
+    'México':'','África do Sul':'🇿🇦','Canadá':'🇨','Bósnia e Herzegovina':'🇧🇦',
+    'Estados Unidos':'','Paraguai':'🇵','Catar':'🇶','Suíça':'🇭',
+    'Brasil':'','Marrocos':'🇲','Haiti':'🇭','Escócia':'🏴󠁧󠁢󠁳󠁣󠁴󠁿',
+    'Austrália':'','Turquia':'🇹','Alemanha':'🇩','Curaçau':'🇨',
+    'Países Baixos':'🇳','Japão':'🇯','Holanda':'🇳','Costa do Marfim':'🇨',
+    'Equador':'🇪','Suécia':'🇸','Tunísia':'🇹','Espanha':'',
+    'Cabo Verde':'','Bélgica':'','Egito':'🇪','Arábia Saudita':'🇸',
+    'Uruguai':'🇺','Irã':'🇷','Nova Zelândia':'🇳','França':'🇫',
+    'Senegal':'🇸','Iraque':'','Noruega':'🇳','Argentina':'🇦',
+    'Argélia':'','Áustria':'🇦','Jordânia':'🇯','Portugal':'🇵',
+    'RD Congo':'🇨','Inglaterra':'🏴󠁧󠁢󠁥󠁮󠁧󠁿','Croácia':'','Gana':'🇬',
+    'Panamá':'🇵','Uzbequistão':'🇺','Colômbia':'🇨','Tchéquia':'🇨',
+    'Coreia do Sul':'🇰','Chéquia':'🇨','Bósnia':'🇧'
 };
 
-// 1ª Rodada
-const round1 = [
-    {id:0, group:'A', home:'México', away:'África do Sul', date:'Qui 11/06', time:'16h00'},
-    {id:1, group:'B', home:'Canadá', away:'Bósnia e Herzegovina', date:'Sex 12/06', time:'16h00'},
-    {id:2, group:'D', home:'Estados Unidos', away:'Paraguai', date:'Sex 12/06', time:'22h00'},
-    {id:3, group:'B', home:'Catar', away:'Suíça', date:'Sáb 13/06', time:'16h00'},
-    {id:4, group:'C', home:'Brasil', away:'Marrocos', date:'Sáb 13/06', time:'19h00'},
-    {id:5, group:'C', home:'Haiti', away:'Escócia', date:'Sáb 13/06', time:'22h00'},
-    {id:6, group:'D', home:'Austrália', away:'Turquia', date:'Dom 14/06', time:'01h00'},
-    {id:7, group:'E', home:'Alemanha', away:'Curaçau', date:'Dom 14/06', time:'14h00'},
-    {id:8, group:'F', home:'Países Baixos', away:'Japão', date:'Dom 14/06', time:'17h00'},
-    {id:9, group:'E', home:'Costa do Marfim', away:'Equador', date:'Dom 14/06', time:'20h00'},
-    {id:10, group:'F', home:'Suécia', away:'Tunísia', date:'Dom 14/06', time:'23h00'},
-    {id:11, group:'H', home:'Espanha', away:'Cabo Verde', date:'Seg 15/06', time:'13h00'},
-    {id:12, group:'G', home:'Bélgica', away:'Egito', date:'Seg 15/06', time:'16h00'},
-    {id:13, group:'H', home:'Arábia Saudita', away:'Uruguai', date:'Seg 15/06', time:'19h00'},
-    {id:14, group:'G', home:'Irã', away:'Nova Zelândia', date:'Seg 15/06', time:'22h00'},
-    {id:15, group:'I', home:'França', away:'Senegal', date:'Ter 16/06', time:'16h00'},
-    {id:16, group:'I', home:'Iraque', away:'Noruega', date:'Ter 16/06', time:'19h00'},
-    {id:17, group:'J', home:'Argentina', away:'Argélia', date:'Ter 16/06', time:'22h00'},
-    {id:18, group:'J', home:'Áustria', away:'Jordânia', date:'Qua 17/06', time:'01h00'},
-    {id:19, group:'K', home:'Portugal', away:'RD Congo', date:'Qua 17/06', time:'14h00'},
-    {id:20, group:'L', home:'Inglaterra', away:'Croácia', date:'Qua 17/06', time:'17h00'},
-    {id:21, group:'L', home:'Gana', away:'Panamá', date:'Qua 17/06', time:'20h00'},
-    {id:22, group:'K', home:'Uzbequistão', away:'Colômbia', date:'Qua 17/06', time:'23h00'}
+// 16 Avos de Final
+const dezesseisAvos = [
+    {id:0, group:'16 Avos', home:'África do Sul', away:'Canadá', date:'Dom 28/06', time:'16h00'},
+    {id:1, group:'16 Avos', home:'Brasil', away:'Japão', date:'Seg 29/06', time:'14h00'},
+    {id:2, group:'16 Avos', home:'Alemanha', away:'Paraguai', date:'Seg 29/06', time:'17h30'},
+    {id:3, group:'16 Avos', home:'Holanda', away:'Marrocos', date:'Seg 29/06', time:'22h00'},
+    {id:4, group:'16 Avos', home:'Costa do Marfim', away:'Noruega', date:'Ter 30/06', time:'14h00'},
+    {id:5, group:'16 Avos', home:'França', away:'Suécia', date:'Ter 30/06', time:'18h00'},
+    {id:6, group:'16 Avos', home:'México', away:'Equador', date:'Ter 30/06', time:'22h00'},
+    {id:7, group:'16 Avos', home:'Inglaterra', away:'RD Congo', date:'Qua 01/07', time:'13h00'},
+    {id:8, group:'16 Avos', home:'Bélgica', away:'Senegal', date:'Qua 01/07', time:'17h00'},
+    {id:9, group:'16 Avos', home:'Estados Unidos', away:'Bósnia', date:'Qua 01/07', time:'21h00'},
+    {id:10, group:'16 Avos', home:'Espanha', away:'Áustria', date:'Qui 02/07', time:'16h00'},
+    {id:11, group:'16 Avos', home:'Portugal', away:'Croácia', date:'Qui 02/07', time:'20h00'},
+    {id:12, group:'16 Avos', home:'Suíça', away:'Argélia', date:'Sex 03/07', time:'00h00'},
+    {id:13, group:'16 Avos', home:'Austrália', away:'Egito', date:'Sex 03/07', time:'15h00'},
+    {id:14, group:'16 Avos', home:'Argentina', away:'Cabo Verde', date:'Sex 03/07', time:'19h00'},
+    {id:15, group:'16 Avos', home:'Colômbia', away:'Gana', date:'Sex 03/07', time:'22h30'}
 ];
 
-// 2ª Rodada
-const round2 = [
-    {id:0, group:'A', home:'Tchéquia', away:'África do Sul', date:'Qua 18/06', time:'13h00'},
-    {id:1, group:'B', home:'Suíça', away:'Bósnia e Herzegovina', date:'Qua 18/06', time:'16h00'},
-    {id:2, group:'B', home:'Canadá', away:'Catar', date:'Qua 18/06', time:'19h00'},
-    {id:3, group:'A', home:'México', away:'Coreia do Sul', date:'Qua 18/06', time:'22h00'},
-    {id:4, group:'D', home:'Estados Unidos', away:'Austrália', date:'Qui 19/06', time:'16h00'},
-    {id:5, group:'C', home:'Escócia', away:'Marrocos', date:'Qui 19/06', time:'19h00'},
-    {id:6, group:'C', home:'Brasil', away:'Haiti', date:'Qui 19/06', time:'21h30'},
-    {id:7, group:'D', home:'Turquia', away:'Paraguai', date:'Qui 19/06', time:'00h00'},
-    {id:8, group:'F', home:'Países Baixos', away:'Suécia', date:'Sex 20/06', time:'14h00'},
-    {id:9, group:'E', home:'Alemanha', away:'Costa do Marfim', date:'Sex 20/06', time:'17h00'},
-    {id:10, group:'E', home:'Equador', away:'Curaçau', date:'Sex 20/06', time:'21h00'},
-    {id:11, group:'F', home:'Tunísia', away:'Japão', date:'Sex 20/06', time:'01h00'},
-    {id:12, group:'H', home:'Espanha', away:'Arábia Saudita', date:'Sáb 21/06', time:'13h00'},
-    {id:13, group:'G', home:'Bélgica', away:'Irã', date:'Sáb 21/06', time:'16h00'},
-    {id:14, group:'H', home:'Uruguai', away:'Cabo Verde', date:'Sáb 21/06', time:'19h00'},
-    {id:15, group:'G', home:'Nova Zelândia', away:'Egito', date:'Sáb 21/06', time:'22h00'},
-    {id:16, group:'J', home:'Argentina', away:'Áustria', date:'Seg 22/06', time:'14h00'},
-    {id:17, group:'I', home:'França', away:'Iraque', date:'Seg 22/06', time:'18h00'},
-    {id:18, group:'I', home:'Noruega', away:'Senegal', date:'Seg 22/06', time:'21h00'},
-    {id:19, group:'J', home:'Jordânia', away:'Argélia', date:'Ter 23/06', time:'00h00'},
-    {id:20, group:'K', home:'Portugal', away:'Uzbequistão', date:'Ter 23/06', time:'14h00'},
-    {id:21, group:'L', home:'Inglaterra', away:'Gana', date:'Ter 23/06', time:'17h00'},
-    {id:22, group:'L', home:'Panamá', away:'Croácia', date:'Ter 23/06', time:'20h00'},
-    {id:23, group:'K', home:'Colômbia', away:'RD Congo', date:'Ter 23/06', time:'23h00'}
-];
+// Oitavas de Final (vazio - preencher depois)
+const oitavas = [];
 
-// 3ª Rodada - CORRIGIDA (Grupos J e K com times corretos)
-const round3 = [
-    {id:0, group:'A', home:'África do Sul', away:'Coreia do Sul', date:'Seg 22/06', time:'22h00'},
-    {id:1, group:'A', home:'Tchéquia', away:'México', date:'Seg 22/06', time:'22h00'},
-    {id:2, group:'B', home:'Canadá', away:'Bósnia', date:'Qua 24/06'},
-    {id:3, group:'B', home:'Catar', away:'Suíça', date:'Qua 24/06'},
-    {id:4, group:'C', home:'Escócia', away:'Brasil', date:'Qua 24/06'},
-    {id:5, group:'C', home:'Marrocos', away:'Haiti', date:'Qua 24/06'},
-    {id:6, group:'D', home:'Turquia', away:'Estados Unidos', date:'Qui 25/06'},
-    {id:7, group:'D', home:'Paraguai', away:'Austrália', date:'Qui 25/06'},
-    {id:8, group:'E', home:'Equador', away:'Alemanha', date:'Qui 25/06'},
-    {id:9, group:'E', home:'Curaçau', away:'Costa do Marfim', date:'Qui 25/06'},
-    {id:10, group:'F', home:'Japão', away:'Suécia', date:'Qui 25/06'},
-    {id:11, group:'F', home:'Tunísia', away:'Países Baixos', date:'Qui 25/06'},
-    {id:12, group:'G', home:'Egito', away:'Irã', date:'Sex 26/06'},
-    {id:13, group:'G', home:'Nova Zelândia', away:'Bélgica', date:'Sex 26/06'},
-    {id:14, group:'H', home:'Cabo Verde', away:'Arábia Saudita', date:'Sex 26/06'},
-    {id:15, group:'H', home:'Uruguai', away:'Espanha', date:'Sex 26/06'},
-    {id:16, group:'I', home:'Noruega', away:'França', date:'Sex 26/06'},
-    {id:17, group:'I', home:'Senegal', away:'Iraque', date:'Sex 26/06'},
-    // GRUPOS J E K CORRIGIDOS:
-    {id:18, group:'K', home:'Colômbia', away:'Portugal', date:'Sáb 27/06', time:'15h00'},
-    {id:19, group:'K', home:'RD Congo', away:'Uzbequistão', date:'Sáb 27/06', time:'15h00'},
-    {id:20, group:'J', home:'Argélia', away:'Áustria', date:'Sáb 27/06', time:'18h00'},
-    {id:21, group:'J', home:'Jordânia', away:'Argentina', date:'Sáb 27/06', time:'18h00'},
-    {id:22, group:'L', home:'Panamá', away:'Inglaterra', date:'Sáb 27/06', time:'21h00'},
-    {id:23, group:'L', home:'Gana', away:'Croácia', date:'Sáb 27/06', time:'21h00'}
-];
+// Quartas de Final (vazio - preencher depois)
+const quartas = [];
 
-const allRounds = [round1, round2, round3];
+// Semi Final (vazio - preencher depois)
+const semi = [];
+
+// Final (vazio - preencher depois)
+const final = [];
+
+const allRounds = [dezesseisAvos, oitavas, quartas, semi, final];
+const roundNames = ['16 Avos', 'Oitavas', 'Quartas', 'Semi', 'Final'];
 
 // ==================== ESTADO ====================
 let currentUser = null;
@@ -476,7 +427,7 @@ function setupRealtimeListener() {
     if (typeof window.firebaseDB !== 'undefined') {
         const resultsRef = window.firebaseRef(window.firebaseDB, 'results');
         window.firebaseOnValue(resultsRef, (snapshot) => {
-            console.log('🔄 Resultados atualizados em tempo real!');
+            console.log(' Resultados atualizados em tempo real!');
             if (document.getElementById('screen-ranking').classList.contains('active')) {
                 showRanking();
             }
@@ -615,11 +566,11 @@ function switchAdminView(view, el) {
 function renderAdminResults() {
     const container = document.getElementById('admin-container');
     getRealResults().then(realResults => {
-        let html = `<div class="phase-tabs" style="margin-bottom:20px;">
-            <button class="phase-tab active" onclick="switchAdminRound(0, this)">1ª Rodada</button>
-            <button class="phase-tab" onclick="switchAdminRound(1, this)">2ª Rodada</button>
-            <button class="phase-tab" onclick="switchAdminRound(2, this)">3ª Rodada</button>
-        </div><div id="admin-results-content"></div>`;
+        let html = `<div class="phase-tabs" style="margin-bottom:20px;">`;
+        roundNames.forEach((name, idx) => {
+            html += `<button class="phase-tab ${idx === 0 ? 'active' : ''}" onclick="switchAdminRound(${idx}, this)">${name}</button>`;
+        });
+        html += `</div><div id="admin-results-content"></div>`;
         container.innerHTML = html;
         renderAdminRoundContent(0);
     });
@@ -636,6 +587,11 @@ function renderAdminRoundContent(round) {
     getRealResults().then(realResults => {
         const matches = allRounds[round];
 
+        if (matches.length === 0) {
+            container.innerHTML = `<div class="empty-state"><div class="empty-icon">📭</div><p>Nenhum jogo cadastrado nesta fase ainda.</p></div>`;
+            return;
+        }
+
         const grouped = {};
         matches.forEach(m => {
             if (!grouped[m.group]) grouped[m.group] = [];
@@ -644,7 +600,7 @@ function renderAdminRoundContent(round) {
 
         let html = '';
         Object.keys(grouped).sort().forEach(gKey => {
-            html += `<div class="group-section"><div class="group-title">🏟️ Grupo ${gKey}</div>`;
+            html += `<div class="group-section"><div class="group-title">🏟️ ${gKey}</div>`;
             grouped[gKey].forEach(m => {
                 const matchId = `r${round}_${m.id}`;
                 const result = realResults[matchId];
@@ -708,9 +664,9 @@ async function renderAdminUsers() {
         html += `<div class="user-row">
             <div class="user-info">
                 <span class="user-name">👤 ${name}</span>
-                <span class="user-pass"> Senha: ${users[name].password}</span>
+                <span class="user-pass">🔑 Senha: ${users[name].password}</span>
             </div>
-            <button class="btn-delete-user" onclick="deleteUser('${name}')">️ Deletar</button>
+            <button class="btn-delete-user" onclick="deleteUser('${name}')">🗑️ Deletar</button>
         </div>`;
     });
     if(userCount === 0) html += '<p style="color:#556677; text-align:center; padding:10px;">Nenhum usuário cadastrado ainda.</p>';
@@ -721,17 +677,17 @@ async function renderAdminUsers() {
     for (const name of Object.keys(users)) {
         if(name === 'admin') continue;
         const preds = await getUserPredictions(name);
-        const hasBets = preds['round_0']?._saved || preds['round_1']?._saved || preds['round_2']?._saved;
+        const hasBets = preds['round_0']?._saved || preds['round_1']?._saved || preds['round_2']?._saved || preds['round_3']?._saved || preds['round_4']?._saved;
         if(!hasBets) continue;
         hasAnyBets = true;
 
         html += `<div style="margin-bottom:15px; padding:12px; background:rgba(255,255,255,0.03); border-radius:12px; border:1px solid rgba(255,255,255,0.05);">
             <div style="color:#f0c040; font-weight:bold; margin-bottom:10px; font-size:15px;">👤 ${name}</div>`;
         
-        for (let round = 0; round < 3; round++) {
+        for (let round = 0; round < 5; round++) {
             const rp = preds['round_'+round];
             if(rp && rp._saved) {
-                html += `<div class="bet-group"><div class="bet-round-title">🏆 Rodada ${round+1}</div>`;
+                html += `<div class="bet-group"><div class="bet-round-title">🏆 ${roundNames[round]}</div>`;
                 Object.keys(rp).forEach(key => {
                     if(key === '_saved') return;
                     const m = getMatchFromKey(key);
@@ -771,7 +727,7 @@ async function deleteUser(name) {
             delete users[name];
             await saveUsers(users);
             await saveUserPredictions(name, {});
-            showToast(`️ Usuário ${name} excluído com sucesso!`);
+            showToast(`🗑️ Usuário ${name} excluído com sucesso!`);
             renderAdminUsers();
         }
     }
@@ -791,7 +747,7 @@ function switchRound(round, el) {
     renderPredictions();
 }
 
-function getFlag(team) { return FLAGS[team] || ''; }
+function getFlag(team) { return FLAGS[team] || '⚽'; }
 
 async function renderPredictions() {
     const container = document.getElementById('predictions-container');
@@ -800,12 +756,20 @@ async function renderPredictions() {
     const isRoundSaved = roundPreds._saved === true;
 
     const matches = allRounds[currentRound];
+    
+    if (matches.length === 0) {
+        container.innerHTML = `<div class="empty-state"><div class="empty-icon">📭</div><p>Nenhum jogo cadastrado nesta fase ainda.</p></div>`;
+        document.getElementById('btn-save-predictions').style.display = 'none';
+        document.getElementById('pred-status-text').textContent = 'Aguarde os jogos serem definidos';
+        return;
+    }
+
     const grouped = {};
     matches.forEach(m => { if (!grouped[m.group]) grouped[m.group] = []; grouped[m.group].push(m); });
 
     let html = '';
     Object.keys(grouped).sort().forEach(gKey => {
-        html += `<div class="group-section"><div class="group-title">🏟️ Grupo ${gKey}</div>`;
+        html += `<div class="group-section"><div class="group-title">🏟️ ${gKey}</div>`;
         grouped[gKey].forEach(m => {
             const matchId = `r${currentRound}_${m.id}`;
             const savedData = roundPreds[matchId];
@@ -836,7 +800,7 @@ async function renderPredictions() {
     const statusText = document.getElementById('pred-status-text');
     const saveBtn = document.getElementById('btn-save-predictions');
     if (isRoundSaved) {
-        statusText.innerHTML = `<span class="saved-badge">✅ Rodada ${currentRound+1} salva</span>`;
+        statusText.innerHTML = `<span class="saved-badge">✅ ${roundNames[currentRound]} salvo</span>`;
         saveBtn.style.display = 'none';
     } else {
         statusText.textContent = 'Preencha os placares e salve';
@@ -873,7 +837,7 @@ async function savePredictions() {
     preds['round_' + currentRound] = roundPreds;
     await saveUserPredictions(currentUser, preds);
 
-    showToast('✅ Apostas da ' + (currentRound+1) + 'ª rodada salvas!');
+    showToast('✅ Apostas da ' + roundNames[currentRound] + ' salvas!');
     renderPredictions();
 }
 
@@ -908,17 +872,19 @@ async function showRanking() {
     for (const username of Object.keys(users)) {
         if (username === 'admin') continue;
         const preds = await getUserPredictions(username);
-        const hasAnySaved = preds['round_0']?._saved || preds['round_1']?._saved || preds['round_2']?._saved;
+        const hasAnySaved = preds['round_0']?._saved || preds['round_1']?._saved || preds['round_2']?._saved || preds['round_3']?._saved || preds['round_4']?._saved;
         if (!hasAnySaved) continue;
 
         const r1 = await calculatePointsForRound(username, 0);
         const r2 = await calculatePointsForRound(username, 1);
         const r3 = await calculatePointsForRound(username, 2);
+        const r4 = await calculatePointsForRound(username, 3);
+        const r5 = await calculatePointsForRound(username, 4);
         
         rankings.push({ 
             name: username, 
-            r1, r2, r3, 
-            total: r1 + r2 + r3 
+            r1, r2, r3, r4, r5,
+            total: r1 + r2 + r3 + r4 + r5
         });
     }
 
@@ -934,10 +900,12 @@ async function showRanking() {
             <table class="ranking-table">
                 <thead>
                     <tr>
-                        <th style="text-align:left;">👤 Usuário</th>
-                        <th>1ª Rod</th>
-                        <th>2ª Rod</th>
-                        <th>3ª Rod</th>
+                        <th style="text-align:left;"> Usuário</th>
+                        <th>16 Avos</th>
+                        <th>Oitavas</th>
+                        <th>Quartas</th>
+                        <th>Semi</th>
+                        <th>Final</th>
                         <th>Total</th>
                     </tr>
                 </thead>
@@ -951,6 +919,8 @@ async function showRanking() {
                     <td class="${r.r1 > 0 ? 'pts-positive' : 'pts-zero'}">${r.r1}</td>
                     <td class="${r.r2 > 0 ? 'pts-positive' : 'pts-zero'}">${r.r2}</td>
                     <td class="${r.r3 > 0 ? 'pts-positive' : 'pts-zero'}">${r.r3}</td>
+                    <td class="${r.r4 > 0 ? 'pts-positive' : 'pts-zero'}">${r.r4}</td>
+                    <td class="${r.r5 > 0 ? 'pts-positive' : 'pts-zero'}">${r.r5}</td>
                     <td class="pts-total">${r.total}</td>
                 </tr>`;
         });
