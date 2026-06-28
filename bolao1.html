@@ -41,6 +41,8 @@
         .btn-logout:hover { background: rgba(255,77,77,0.4); }
         .btn-admin-save { background: linear-gradient(135deg, #ff0055, #ff5e00); color: #fff; width: auto; padding: 8px 15px; font-size: 12px; }
         .btn-admin-save:hover { box-shadow: 0 4px 15px rgba(255,0,85,0.4); }
+        .btn-clear-results { background: linear-gradient(135deg, #ff4d4d, #cc0000); color: #fff; padding: 12px 20px; border-radius: 12px; cursor: pointer; font-size: 14px; font-weight: 700; border: none; transition: all 0.3s; margin-bottom: 20px; }
+        .btn-clear-results:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(255,77,77,0.4); }
 
         .link-text { text-align: center; margin-top: 20px; color: #8899aa; font-size: 14px; }
         .link-text a { color: #f0c040; cursor: pointer; font-weight: 600; text-decoration: none; }
@@ -186,7 +188,7 @@
         <p>Faça suas apostas e dispute com seus amigos!</p>
     </div>
     <div class="form-container">
-        <h2>🔐 Entrar</h2>
+        <h2> Entrar</h2>
         <div class="form-group">
             <label>Nome do usuário</label>
             <input type="text" id="login-name" placeholder="Digite seu nome" autocomplete="off">
@@ -235,7 +237,7 @@
 <!-- TELA PRINCIPAL (USUÁRIO) -->
 <div id="screen-home" class="screen">
     <div class="app-header">
-        <div class="trophy"></div>
+        <div class="trophy">🏆</div>
         <h1>Bolão Copa 2026</h1>
     </div>
     <p class="welcome-user">Olá, <span id="welcome-name"></span>! 👋</p>
@@ -246,7 +248,7 @@
             <span class="arrow">›</span>
         </button>
         <button class="menu-btn" onclick="showRanking()">
-            <span class="icon">🏅</span>
+            <span class="icon"></span>
             <span class="btn-label">Classificação<span class="sync-badge">🔄 Online</span><div class="btn-desc">Veja o ranking dos jogadores</div></span>
             <span class="arrow">›</span>
         </button>
@@ -277,7 +279,7 @@
 <div id="screen-predictions" class="screen">
     <div class="header-bar">
         <button class="btn-back" onclick="showScreen('screen-home')">← Voltar</button>
-        <button class="btn-logout" onclick="doLogout()"> Sair</button>
+        <button class="btn-logout" onclick="doLogout()">🚪 Sair</button>
     </div>
     <div class="app-header" style="margin: 0 0 20px;">
         <h1>⚽ Apostas</h1>
@@ -367,19 +369,15 @@
 <script>
 // ==================== CONFRONTOS OFICIAIS ====================
 const FLAGS = {
-    'México':'','África do Sul':'🇿🇦','Canadá':'🇨','Bósnia e Herzegovina':'🇧🇦',
-    'Estados Unidos':'','Paraguai':'🇵','Catar':'🇶','Suíça':'🇭',
-    'Brasil':'','Marrocos':'🇲','Haiti':'🇭','Escócia':'🏴󠁧󠁢󠁳󠁣󠁴󠁿',
-    'Austrália':'','Turquia':'🇹','Alemanha':'🇩','Curaçau':'🇨',
-    'Países Baixos':'🇳','Japão':'🇯','Holanda':'🇳','Costa do Marfim':'🇨',
-    'Equador':'🇪','Suécia':'🇸','Tunísia':'🇹','Espanha':'',
-    'Cabo Verde':'','Bélgica':'','Egito':'🇪','Arábia Saudita':'🇸',
-    'Uruguai':'🇺','Irã':'🇷','Nova Zelândia':'🇳','França':'🇫',
-    'Senegal':'🇸','Iraque':'','Noruega':'🇳','Argentina':'🇦',
-    'Argélia':'','Áustria':'🇦','Jordânia':'🇯','Portugal':'🇵',
-    'RD Congo':'🇨','Inglaterra':'🏴󠁧󠁢󠁥󠁮󠁧󠁿','Croácia':'','Gana':'🇬',
-    'Panamá':'🇵','Uzbequistão':'🇺','Colômbia':'🇨','Tchéquia':'🇨',
-    'Coreia do Sul':'🇰','Chéquia':'🇨','Bósnia':'🇧'
+    'África do Sul':'🇿🇦','Canadá':'🇦','Brasil':'🇧🇷','Japão':'🇯🇵',
+    'Alemanha':'🇪','Paraguai':'🇾','Holanda':'🇳🇱','Marrocos':'🇲',
+    'Costa do Marfim':'🇨🇮','Noruega':'🇳🇴','França':'🇷','Suécia':'🇸🇪',
+    'México':'🇽','Equador':'🇪🇨','Inglaterra':'🏴󠁢󠁥󠁧󠁿','RD Congo':'🇨🇩',
+    'Bélgica':'🇧🇪','Senegal':'🇸🇳','Estados Unidos':'🇺🇸','Bósnia':'🇧🇦',
+    'Bósnia e Herzegovina':'🇦','Espanha':'🇪🇸','Áustria':'🇦🇹',
+    'Portugal':'🇹','Croácia':'🇷','Suíça':'🇨🇭','Argélia':'🇩',
+    'Austrália':'🇦🇺','Egito':'🇪🇬','Argentina':'🇦','Cabo Verde':'🇨',
+    'Colômbia':'🇴','Gana':'🇬'
 };
 
 // 16 Avos de Final
@@ -427,7 +425,7 @@ function setupRealtimeListener() {
     if (typeof window.firebaseDB !== 'undefined') {
         const resultsRef = window.firebaseRef(window.firebaseDB, 'results');
         window.firebaseOnValue(resultsRef, (snapshot) => {
-            console.log(' Resultados atualizados em tempo real!');
+            console.log('🔄 Resultados atualizados em tempo real!');
             if (document.getElementById('screen-ranking').classList.contains('active')) {
                 showRanking();
             }
@@ -566,14 +564,28 @@ function switchAdminView(view, el) {
 function renderAdminResults() {
     const container = document.getElementById('admin-container');
     getRealResults().then(realResults => {
-        let html = `<div class="phase-tabs" style="margin-bottom:20px;">`;
-        roundNames.forEach((name, idx) => {
-            html += `<button class="phase-tab ${idx === 0 ? 'active' : ''}" onclick="switchAdminRound(${idx}, this)">${name}</button>`;
-        });
-        html += `</div><div id="admin-results-content"></div>`;
+        let html = `
+        <div class="phase-tabs" style="margin-bottom:20px;">
+            <button class="phase-tab active" onclick="switchAdminRound(0, this)">16 Avos</button>
+            <button class="phase-tab" onclick="switchAdminRound(1, this)">Oitavas</button>
+            <button class="phase-tab" onclick="switchAdminRound(2, this)">Quartas</button>
+            <button class="phase-tab" onclick="switchAdminRound(3, this)">Semi</button>
+            <button class="phase-tab" onclick="switchAdminRound(4, this)">Final</button>
+        </div>
+        <button class="btn-clear-results" onclick="clearAllResults()">🗑️ LIMPAR TODOS OS RESULTADOS</button>
+        <div id="admin-results-content"></div>`;
         container.innerHTML = html;
         renderAdminRoundContent(0);
     });
+}
+
+// NOVA FUNÇÃO PARA LIMPAR RESULTADOS
+async function clearAllResults() {
+    if (confirm('⚠️ ATENÇÃO: Isso vai apagar TODOS os resultados salvos! Tem certeza?')) {
+        await saveRealResults({});
+        showToast('✅ Todos os resultados foram apagados!');
+        renderAdminRoundContent(0);
+    }
 }
 
 function switchAdminRound(round, el) {
@@ -609,7 +621,7 @@ function renderAdminRoundContent(round) {
 
                 html += `
                 <div class="match-card ${result ? 'admin-result' : ''}">
-                    <div class="match-date">📅 ${m.date} ${m.time ? '•'+m.time : ''}</div>
+                    <div class="match-date"> ${m.date} ${m.time ? '•'+m.time : ''}</div>
                     <div class="match-teams">
                         <div class="team"><span class="flag">${getFlag(m.home)}</span>${m.home}</div>
                         <span class="match-vs">VS</span>
@@ -617,7 +629,7 @@ function renderAdminRoundContent(round) {
                     </div>
                     <div class="score-inputs">
                         <input type="number" class="admin-input" min="0" max="99" value="${hScore}" id="a_${matchId}_h" placeholder="-">
-                        <span class="vs-text"></span>
+                        <span class="vs-text">✕</span>
                         <input type="number" class="admin-input" min="0" max="99" value="${aScore}" id="a_${matchId}_a" placeholder="-">
                         <button class="btn btn-admin-save" onclick="saveAdminResult('${matchId}')">💾 Salvar</button>
                     </div>
@@ -642,7 +654,7 @@ async function saveAdminResult(matchId) {
     results[matchId] = { home: parseInt(hVal), away: parseInt(aVal) };
     await saveRealResults(results);
     
-    showToast('✅ Resultado salvo! Pontos atualizados automaticamente! 🎯');
+    showToast('✅ Resultado salvo! Pontos atualizados automaticamente! ');
     
     renderAdminRoundContent(parseInt(matchId.split('_')[0].replace('r','')));
     
@@ -687,7 +699,7 @@ async function renderAdminUsers() {
         for (let round = 0; round < 5; round++) {
             const rp = preds['round_'+round];
             if(rp && rp._saved) {
-                html += `<div class="bet-group"><div class="bet-round-title">🏆 ${roundNames[round]}</div>`;
+                html += `<div class="bet-group"><div class="bet-round-title"> ${roundNames[round]}</div>`;
                 Object.keys(rp).forEach(key => {
                     if(key === '_saved') return;
                     const m = getMatchFromKey(key);
@@ -900,7 +912,7 @@ async function showRanking() {
             <table class="ranking-table">
                 <thead>
                     <tr>
-                        <th style="text-align:left;"> Usuário</th>
+                        <th style="text-align:left;">👤 Usuário</th>
                         <th>16 Avos</th>
                         <th>Oitavas</th>
                         <th>Quartas</th>
