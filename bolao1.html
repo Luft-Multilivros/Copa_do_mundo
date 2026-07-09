@@ -41,6 +41,8 @@
         .btn-logout:hover { background: rgba(255,77,77,0.4); }
         .btn-admin-save { background: linear-gradient(135deg, #ff0055, #ff5e00); color: #fff; width: auto; padding: 8px 15px; font-size: 12px; }
         .btn-admin-save:hover { box-shadow: 0 4px 15px rgba(255,0,85,0.4); }
+        .btn-admin-teams { background: linear-gradient(135deg, #0096ff, #0055cc); color: #fff; width: auto; padding: 8px 15px; font-size: 12px; margin-top: 8px; }
+        .btn-admin-teams:hover { box-shadow: 0 4px 15px rgba(0,150,255,0.4); }
         .btn-clear-results { background: linear-gradient(135deg, #ff4d4d, #cc0000); color: #fff; padding: 12px 20px; border-radius: 12px; cursor: pointer; font-size: 14px; font-weight: 700; border: none; transition: all 0.3s; margin-bottom: 20px; }
         .btn-clear-results:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(255,77,77,0.4); }
 
@@ -70,6 +72,7 @@
         .match-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 16px; margin-bottom: 10px; transition: all 0.3s; }
         .match-card.saved { border-color: rgba(0,200,83,0.3); background: rgba(0,200,83,0.05); }
         .match-card.admin-result { border-color: rgba(255, 0, 85, 0.4); background: rgba(255, 0, 85, 0.05); }
+        .match-card.has-teams { border-color: rgba(0,150,255,0.3); background: rgba(0,150,255,0.05); }
 
         .match-teams { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; }
         .team { flex: 1; text-align: center; font-weight: 600; font-size: 14px; min-width: 80px; }
@@ -84,6 +87,23 @@
         .score-inputs .vs-text { color: #556677; font-weight: 700; }
         .match-status { display: none; font-size: 11px; color: #00c853; margin-top: 8px; text-align: center; font-weight: 600; }
         .match-date { text-align: center; font-size: 12px; color: #7788aa; margin-bottom: 8px; font-weight: 500; }
+        
+        .team-input {
+            width: 120px;
+            padding: 8px;
+            text-align: center;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .team-input:focus { border-color: #0096ff; }
+        .team-input:disabled { opacity: 0.5; cursor: not-allowed; border-color: #00c853; background: rgba(0,200,83,0.08); }
+        .team-input.has-value { border-color: #0096ff; background: rgba(0,150,255,0.1); }
 
         .ranking-container { width: 100%; max-width: 600px; }
         .ranking-table { width: 100%; border-collapse: collapse; text-align: center; font-size: 14px; }
@@ -120,12 +140,14 @@
         .legend-item { display: flex; justify-content: space-between; padding: 6px 0; font-size: 13px; color: #aabbcc; }
         .legend-item .pts { font-weight: 700; color: #f0c040; }
         .saved-badge { display: inline-block; background: rgba(0,200,83,0.2); color: #00c853; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-top: 15px; }
+        .teams-badge { display: inline-block; background: rgba(0,150,255,0.2); color: #0096ff; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-top: 8px; }
         .readonly-badge { display: inline-block; background: rgba(255,255,255,0.1); color: #8899aa; padding: 4px 10px; border-radius: 15px; font-size: 11px; margin-left: 8px; }
         .sync-badge { display: inline-block; background: rgba(0,150,255,0.2); color: #0096ff; padding: 4px 10px; border-radius: 15px; font-size: 11px; margin-left: 8px; animation: pulse 2s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
 
         .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: rgba(0,200,83,0.9); color: #fff; padding: 14px 28px; border-radius: 12px; font-weight: 600; font-size: 14px; z-index: 10000; transition: transform 0.4s ease; }
         .toast.error { background: rgba(255,77,77,0.9); }
+        .toast.info { background: rgba(0,150,255,0.9); }
         .toast.show { transform: translateX(-50%) translateY(0); }
 
         .user-row { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: rgba(255,255,255,0.03); border-radius: 10px; margin-bottom: 8px; }
@@ -175,6 +197,7 @@
             .user-info { width: 100%; }
             .ranking-table { font-size: 12px; }
             .ranking-table th, .ranking-table td { padding: 8px 4px; }
+            .team-input { width: 100px; font-size: 12px; }
         }
     </style>
 </head>
@@ -183,7 +206,7 @@
 <!-- TELA LOGIN -->
 <div id="screen-login" class="screen active">
     <div class="app-header">
-        <div class="trophy"></div>
+        <div class="trophy">🏆</div>
         <h1>Bolão Copa 2026</h1>
         <p>Faça suas apostas e dispute com seus amigos!</p>
     </div>
@@ -208,11 +231,11 @@
 <!-- TELA CADASTRO -->
 <div id="screen-register" class="screen">
     <div class="app-header">
-        <div class="trophy"></div>
+        <div class="trophy">📝</div>
         <h1>Cadastro</h1>
     </div>
     <div class="form-container">
-        <h2> Criar Conta</h2>
+        <h2>🆕 Criar Conta</h2>
         <div class="form-group">
             <label>Nome completo</label>
             <input type="text" id="reg-name" placeholder="Seu nome completo" autocomplete="off">
@@ -249,7 +272,7 @@
         </button>
         <button class="menu-btn" onclick="showRanking()">
             <span class="icon">🏅</span>
-            <span class="btn-label">Classificação<span class="sync-badge"> Online</span><div class="btn-desc">Veja o ranking dos jogadores</div></span>
+            <span class="btn-label">Classificação<span class="sync-badge">🔄 Online</span><div class="btn-desc">Veja o ranking dos jogadores</div></span>
             <span class="arrow">›</span>
         </button>
     </div>
@@ -286,10 +309,9 @@
         <p id="pred-status-text">Preencha os placares e salve</p>
     </div>
     <div class="phase-tabs">
-        <button class="phase-tab active" onclick="switchRound(0, this)">Oitavas</button>
-        <button class="phase-tab" onclick="switchRound(1, this)">Quartas</button>
-        <button class="phase-tab" onclick="switchRound(2, this)">Semi</button>
-        <button class="phase-tab" onclick="switchRound(3, this)">Final</button>
+        <button class="phase-tab active" onclick="switchRound(0, this)">Quartas</button>
+        <button class="phase-tab" onclick="switchRound(1, this)">Semi</button>
+        <button class="phase-tab" onclick="switchRound(2, this)">Final</button>
     </div>
     <div id="predictions-container" class="scrollable"></div>
     <button class="btn btn-save" style="max-width: 400px; margin: 15px 0 40px;" id="btn-save-predictions" onclick="confirmSavePredictions()">
@@ -305,8 +327,8 @@
         <button class="btn-logout" onclick="doLogout()">🚪 Sair</button>
     </div>
     <div class="app-header" style="margin: 0 0 20px;">
-        <h1> Classificação</h1>
-        <p>Pontuação por fase <span class="sync-badge"> Atualização Automática</span></p>
+        <h1>🏅 Classificação</h1>
+        <p>Pontuação por fase <span class="sync-badge">🔄 Atualização Automática</span></p>
     </div>
     <div class="points-legend">
         <h4>📋 Como funciona a pontuação</h4>
@@ -368,45 +390,45 @@
 <script>
 // ==================== CONFRONTOS OFICIAIS ====================
 const FLAGS = {
-    'África do Sul':'🇿🇦','Canadá':'🇨🇦','Brasil':'🇷','Japão':'🇵',
-    'Alemanha':'🇩🇪','Paraguai':'🇵🇾','Holanda':'🇳🇱','Marrocos':'🇦',
-    'Costa do Marfim':'🇨🇮','Noruega':'🇳🇴','França':'🇷','Suécia':'🇪',
-    'México':'🇽','Equador':'🇨','Inglaterra':'🏴󠁢󠁥󠁧󠁿','RD Congo':'🇨🇩',
-    'Bélgica':'🇪','Senegal':'🇸','Estados Unidos':'🇺','Bósnia':'🇧🇦',
-    'Bósnia e Herzegovina':'🇧🇦','Espanha':'🇪🇸','Áustria':'🇦🇹',
-    'Portugal':'🇵🇹','Croácia':'🇭🇷','Suíça':'🇨🇭','Argélia':'🇩🇿',
-    'Austrália':'🇦🇺','Egito':'🇪🇬','Argentina':'🇦🇷','Cabo Verde':'🇨🇻',
-    'Colômbia':'🇨🇴','Gana':'🇬🇭'
+    'França':'🇷','Marrocos':'🇲🇦','Espanha':'🇪🇸','Bélgica':'🇧🇪',
+    'Noruega':'🇳🇴','Inglaterra':'🏴󠁧󠁢󠁥󠁮󠁧󠁿','Argentina':'🇷','Suíça':'🇭',
+    'Brasil':'🇷','Portugal':'🇵🇹','Alemanha':'🇩','Holanda':'🇳🇱',
+    'México':'🇲','Canadá':'🇨🇦','Estados Unidos':'🇺🇸','Japão':'🇯🇵',
+    'Paraguai':'🇵','Colômbia':'🇨🇴','Uruguai':'🇺','Croácia':'🇭🇷',
+    'Senegal':'🇸','Egito':'🇪🇬','Gana':'🇬🇭','Panamá':'🇵🇦',
+    'RD Congo':'🇨🇩','Áustria':'🇦🇹','Argélia':'🇩🇿','Jordânia':'🇯🇴',
+    'Cabo Verde':'🇨','Austrália':'🇦🇺','Costa do Marfim':'🇨🇮','Suécia':'🇸🇪',
+    'Tunísia':'🇹🇳','Equador':'🇨','Irã':'🇮','Nova Zelândia':'🇳',
+    'Iraque':'🇶','Bósnia':'🇧🇦','Bósnia e Herzegovina':'🇧🇦'
 };
 
-// Oitavas de Final
-const oitavas = [
-    {id:0, group:'Oitavas', home:'Canadá', away:'Marrocos', date:'Sáb 04/07', time:'14h00'},
-    {id:1, group:'Oitavas', home:'Paraguai', away:'França', date:'Sáb 04/07', time:'18h00'},
-    {id:2, group:'Oitavas', home:'Brasil', away:'Noruega', date:'Dom 05/07', time:'17h00'},
-    {id:3, group:'Oitavas', home:'México', away:'Inglaterra', date:'Dom 05/07', time:'21h00'},
-    {id:4, group:'Oitavas', home:'Portugal', away:'Espanha', date:'Seg 06/07', time:'16h00'},
-    {id:5, group:'Oitavas', home:'Estados Unidos', away:'Bélgica', date:'Seg 06/07', time:'21h00'},
-    {id:6, group:'Oitavas', home:'Argentina', away:'Egito', date:'Ter 07/07', time:'13h00'},
-    {id:7, group:'Oitavas', home:'Suíça', away:'Colômbia', date:'Ter 07/07', time:'17h00'}
+// Quartas de Final
+const quartas = [
+    {id:0, group:'Quartas', home:'França', away:'Marrocos', date:'Qua 09/07', time:'17h00'},
+    {id:1, group:'Quartas', home:'Espanha', away:'Bélgica', date:'Qui 10/07', time:'16h00'},
+    {id:2, group:'Quartas', home:'Noruega', away:'Inglaterra', date:'Sex 11/07', time:'18h00'},
+    {id:3, group:'Quartas', home:'Argentina', away:'Suíça', date:'Sex 11/07', time:'22h00'}
 ];
 
-// Quartas de Final (vazio - preencher depois)
-const quartas = [];
+// Semi Final (vazio - admin preenche os times)
+const semi = [
+    {id:0, group:'Semi', home:'', away:'', date:'Semi 1', time:''},
+    {id:1, group:'Semi', home:'', away:'', date:'Semi 2', time:''}
+];
 
-// Semi Final (vazio - preencher depois)
-const semi = [];
+// Final (vazio - admin preenche os times)
+const final = [
+    {id:0, group:'Final', home:'', away:'', date:'Final', time:''}
+];
 
-// Final (vazio - preencher depois)
-const final = [];
-
-const allRounds = [oitavas, quartas, semi, final];
-const roundNames = ['Oitavas', 'Quartas', 'Semi', 'Final'];
+const allRounds = [quartas, semi, final];
+const roundNames = ['Quartas', 'Semi', 'Final'];
 
 // ==================== ESTADO ====================
 let currentUser = null;
 let currentRound = 0;
 let currentAdminView = 'results';
+let cachedResults = {};
 
 // ==================== LISTENER EM TEMPO REAL ====================
 function setupRealtimeListener() {
@@ -414,8 +436,13 @@ function setupRealtimeListener() {
         const resultsRef = window.firebaseRef(window.firebaseDB, 'results');
         window.firebaseOnValue(resultsRef, (snapshot) => {
             console.log('🔄 Resultados atualizados em tempo real!');
+            cachedResults = snapshot.exists() ? snapshot.val() : {};
             if (document.getElementById('screen-ranking').classList.contains('active')) {
                 showRanking();
+            }
+            // Atualiza tela de apostas se estiver aberta
+            if (document.getElementById('screen-predictions').classList.contains('active')) {
+                renderPredictions();
             }
         });
     }
@@ -478,10 +505,10 @@ function showScreen(id) {
     closeModal();
 }
 function clearErrors() { document.querySelectorAll('.error-msg').forEach(e => e.classList.remove('show')); }
-function showToast(msg, isError = false) {
+function showToast(msg, isError = false, isInfo = false) {
     const t = document.getElementById('toast');
     t.textContent = msg;
-    t.className = 'toast' + (isError ? ' error' : '');
+    t.className = 'toast' + (isError ? ' error' : '') + (isInfo ? ' info' : '');
     setTimeout(() => t.classList.add('show'), 10);
     setTimeout(() => t.classList.remove('show'), 3000);
 }
@@ -552,12 +579,12 @@ function switchAdminView(view, el) {
 function renderAdminResults() {
     const container = document.getElementById('admin-container');
     getRealResults().then(realResults => {
+        cachedResults = realResults;
         let html = `
         <div class="phase-tabs" style="margin-bottom:20px;">
-            <button class="phase-tab active" onclick="switchAdminRound(0, this)">Oitavas</button>
-            <button class="phase-tab" onclick="switchAdminRound(1, this)">Quartas</button>
-            <button class="phase-tab" onclick="switchAdminRound(2, this)">Semi</button>
-            <button class="phase-tab" onclick="switchAdminRound(3, this)">Final</button>
+            <button class="phase-tab active" onclick="switchAdminRound(0, this)">Quartas</button>
+            <button class="phase-tab" onclick="switchAdminRound(1, this)">Semi</button>
+            <button class="phase-tab" onclick="switchAdminRound(2, this)">Final</button>
         </div>
         <button class="btn-clear-results" onclick="clearAllResults()">🗑️ LIMPAR TODOS OS RESULTADOS</button>
         <div id="admin-results-content"></div>`;
@@ -567,8 +594,9 @@ function renderAdminResults() {
 }
 
 async function clearAllResults() {
-    if (confirm('⚠️ ATENÇÃO: Isso vai apagar TODOS os resultados salvos! Tem certeza?')) {
+    if (confirm('️ ATENÇÃO: Isso vai apagar TODOS os resultados e times salvos! Tem certeza?')) {
         await saveRealResults({});
+        cachedResults = {};
         showToast('✅ Todos os resultados foram apagados!');
         renderAdminRoundContent(0);
     }
@@ -582,52 +610,91 @@ function switchAdminRound(round, el) {
 
 function renderAdminRoundContent(round) {
     const container = document.getElementById('admin-results-content');
-    getRealResults().then(realResults => {
-        const matches = allRounds[round];
+    const matches = allRounds[round];
+    const realResults = cachedResults;
 
-        if (matches.length === 0) {
-            container.innerHTML = `<div class="empty-state"><div class="empty-icon">📭</div><p>Nenhum jogo cadastrado nesta fase ainda.</p></div>`;
-            return;
-        }
+    if (matches.length === 0) {
+        container.innerHTML = `<div class="empty-state"><div class="empty-icon">📭</div><p>Nenhum jogo cadastrado nesta fase ainda.</p></div>`;
+        return;
+    }
 
-        const grouped = {};
-        matches.forEach(m => {
-            if (!grouped[m.group]) grouped[m.group] = [];
-            grouped[m.group].push(m);
-        });
-
-        let html = '';
-        Object.keys(grouped).sort().forEach(gKey => {
-            html += `<div class="group-section"><div class="group-title">🏟️ ${gKey}</div>`;
-            grouped[gKey].forEach(m => {
-                const matchId = `r${round}_${m.id}`;
-                const result = realResults[matchId];
-                const hScore = result ? result.home : '';
-                const aScore = result ? result.away : '';
-
-                html += `
-                <div class="match-card ${result ? 'admin-result' : ''}">
-                    <div class="match-date">📅 ${m.date} • ${m.time}</div>
-                    <div class="match-teams">
-                        <div class="team"><span class="flag">${getFlag(m.home)}</span>${m.home}</div>
-                        <span class="match-vs">VS</span>
-                        <div class="team"><span class="flag">${getFlag(m.away)}</span>${m.away}</div>
-                    </div>
-                    <div class="score-inputs">
-                        <input type="number" class="admin-input" min="0" max="99" value="${hScore}" id="a_${matchId}_h" placeholder="-">
-                        <span class="vs-text">✕</span>
-                        <input type="number" class="admin-input" min="0" max="99" value="${aScore}" id="a_${matchId}_a" placeholder="-">
-                        <button class="btn btn-admin-save" onclick="saveAdminResult('${matchId}')">💾 Salvar</button>
-                    </div>
-                </div>`;
-            });
-            html += '</div>';
-        });
-        container.innerHTML = html;
+    const grouped = {};
+    matches.forEach(m => {
+        if (!grouped[m.group]) grouped[m.group] = [];
+        grouped[m.group].push(m);
     });
+
+    let html = '';
+    Object.keys(grouped).sort().forEach(gKey => {
+        html += `<div class="group-section"><div class="group-title">️ ${gKey}</div>`;
+        grouped[gKey].forEach(m => {
+            const matchId = `r${round}_${m.id}`;
+            const result = realResults[matchId];
+            const hScore = result && result.home !== undefined ? result.home : '';
+            const aScore = result && result.away !== undefined ? result.away : '';
+            const homeTeam = (result && result.homeTeam) ? result.homeTeam : (m.home || '');
+            const awayTeam = (result && result.awayTeam) ? result.awayTeam : (m.away || '');
+            const hasTeams = homeTeam && awayTeam;
+            const hasResult = hScore !== '' && aScore !== '';
+
+            // Para semi e final, admin pode editar os times
+            const canEditTeams = round > 0;
+            
+            html += `
+            <div class="match-card ${hasResult ? 'admin-result' : ''} ${hasTeams && !hasResult ? 'has-teams' : ''}">
+                <div class="match-date">${m.date} ${m.time ? '• '+m.time : ''}</div>
+                <div class="match-teams">
+                    ${canEditTeams ? 
+                        `<input type="text" class="team-input ${homeTeam ? 'has-value' : ''}" value="${homeTeam}" id="t_${matchId}_h" placeholder="Time 1">` :
+                        `<div class="team"><span class="flag">${getFlag(homeTeam)}</span>${homeTeam}</div>`
+                    }
+                    <span class="match-vs">VS</span>
+                    ${canEditTeams ? 
+                        `<input type="text" class="team-input ${awayTeam ? 'has-value' : ''}" value="${awayTeam}" id="t_${matchId}_a" placeholder="Time 2">` :
+                        `<div class="team"><span class="flag">${getFlag(awayTeam)}</span>${awayTeam}</div>`
+                    }
+                </div>
+                <div class="score-inputs">
+                    <input type="number" class="admin-input" min="0" max="99" value="${hScore}" id="a_${matchId}_h" placeholder="-">
+                    <span class="vs-text">✕</span>
+                    <input type="number" class="admin-input" min="0" max="99" value="${aScore}" id="a_${matchId}_a" placeholder="-">
+                </div>
+                <div style="display:flex; gap:8px; justify-content:center; margin-top:10px; flex-wrap:wrap;">
+                    ${canEditTeams ? `<button class="btn btn-admin-teams" onclick="saveAdminTeams('${matchId}')">💾 Salvar Times</button>` : ''}
+                    <button class="btn btn-admin-save" onclick="saveAdminResult('${matchId}', ${canEditTeams})">💾 Salvar Resultado</button>
+                </div>
+                ${hasTeams && !hasResult ? '<div class="teams-badge">✅ Times definidos - Aguardando resultado</div>' : ''}
+                ${hasResult ? '<div class="match-status" style="display:block;">✅ Resultado salvo</div>' : ''}
+            </div>`;
+        });
+        html += '</div>';
+    });
+    container.innerHTML = html;
 }
 
-async function saveAdminResult(matchId) {
+// NOVA FUNÇÃO: Salvar apenas os times (sem placar)
+async function saveAdminTeams(matchId) {
+    const homeTeam = document.getElementById(`t_${matchId}_h`).value.trim();
+    const awayTeam = document.getElementById(`t_${matchId}_a`).value.trim();
+    
+    if (!homeTeam || !awayTeam) {
+        showToast('❌ Preencha os nomes dos dois times!', true);
+        return;
+    }
+
+    const results = await getRealResults();
+    if (!results[matchId]) results[matchId] = {};
+    results[matchId].homeTeam = homeTeam;
+    results[matchId].awayTeam = awayTeam;
+    
+    await saveRealResults(results);
+    cachedResults = results;
+    
+    showToast('✅ Times salvos! Aparecerão nas apostas automaticamente! 🎯', false, true);
+    renderAdminRoundContent(parseInt(matchId.split('_')[0].replace('r','')));
+}
+
+async function saveAdminResult(matchId, canEditTeams) {
     const hVal = document.getElementById(`a_${matchId}_h`).value;
     const aVal = document.getElementById(`a_${matchId}_a`).value;
     
@@ -637,8 +704,26 @@ async function saveAdminResult(matchId) {
     }
 
     const results = await getRealResults();
-    results[matchId] = { home: parseInt(hVal), away: parseInt(aVal) };
+    if (!results[matchId]) results[matchId] = {};
+    results[matchId].home = parseInt(hVal);
+    results[matchId].away = parseInt(aVal);
+    
+    // Se for semi ou final, salva os times também
+    if (canEditTeams) {
+        const homeTeam = document.getElementById(`t_${matchId}_h`).value.trim();
+        const awayTeam = document.getElementById(`t_${matchId}_a`).value.trim();
+        
+        if (!homeTeam || !awayTeam) {
+            showToast('❌ Preencha os nomes dos times!', true);
+            return;
+        }
+        
+        results[matchId].homeTeam = homeTeam;
+        results[matchId].awayTeam = awayTeam;
+    }
+    
     await saveRealResults(results);
+    cachedResults = results;
     
     showToast('✅ Resultado salvo! Pontos atualizados automaticamente! 🎯');
     
@@ -664,7 +749,7 @@ async function renderAdminUsers() {
                 <span class="user-name">👤 ${name}</span>
                 <span class="user-pass">🔑 Senha: ${users[name].password}</span>
             </div>
-            <button class="btn-delete-user" onclick="deleteUser('${name}')">🗑️ Deletar</button>
+            <button class="btn-delete-user" onclick="deleteUser('${name}')">️ Deletar</button>
         </div>`;
     });
     if(userCount === 0) html += '<p style="color:#556677; text-align:center; padding:10px;">Nenhum usuário cadastrado ainda.</p>';
@@ -675,14 +760,14 @@ async function renderAdminUsers() {
     for (const name of Object.keys(users)) {
         if(name === 'admin') continue;
         const preds = await getUserPredictions(name);
-        const hasBets = preds['round_0']?._saved || preds['round_1']?._saved || preds['round_2']?._saved || preds['round_3']?._saved;
+        const hasBets = preds['round_0']?._saved || preds['round_1']?._saved || preds['round_2']?._saved;
         if(!hasBets) continue;
         hasAnyBets = true;
 
         html += `<div style="margin-bottom:15px; padding:12px; background:rgba(255,255,255,0.03); border-radius:12px; border:1px solid rgba(255,255,255,0.05);">
             <div style="color:#f0c040; font-weight:bold; margin-bottom:10px; font-size:15px;">👤 ${name}</div>`;
         
-        for (let round = 0; round < 4; round++) {
+        for (let round = 0; round < 3; round++) {
             const rp = preds['round_'+round];
             if(rp && rp._saved) {
                 html += `<div class="bet-group"><div class="bet-round-title">🏆 ${roundNames[round]}</div>`;
@@ -690,8 +775,10 @@ async function renderAdminUsers() {
                     if(key === '_saved') return;
                     const m = getMatchFromKey(key);
                     if(m) {
+                        const homeName = m.home || 'Time 1';
+                        const awayName = m.away || 'Time 2';
                         html += `<div class="bet-item">
-                            <span>${getFlag(m.home)} ${m.home} vs ${m.away} ${getFlag(m.away)}</span>
+                            <span>${getFlag(homeName)} ${homeName} vs ${awayName} ${getFlag(awayName)}</span>
                             <span class="bet-score">${rp[key].home} x ${rp[key].away}</span>
                         </div>`;
                     }
@@ -725,7 +812,7 @@ async function deleteUser(name) {
             delete users[name];
             await saveUsers(users);
             await saveUserPredictions(name, {});
-            showToast(`️ Usuário ${name} excluído com sucesso!`);
+            showToast(`🗑️ Usuário ${name} excluído com sucesso!`);
             renderAdminUsers();
         }
     }
@@ -745,7 +832,7 @@ function switchRound(round, el) {
     renderPredictions();
 }
 
-function getFlag(team) { return FLAGS[team] || ''; }
+function getFlag(team) { return FLAGS[team] || '⚽'; }
 
 async function renderPredictions() {
     const container = document.getElementById('predictions-container');
@@ -754,6 +841,7 @@ async function renderPredictions() {
     const isRoundSaved = roundPreds._saved === true;
 
     const matches = allRounds[currentRound];
+    const realResults = cachedResults;
     
     if (matches.length === 0) {
         container.innerHTML = `<div class="empty-state"><div class="empty-icon">📭</div><p>Nenhum jogo cadastrado nesta fase ainda.</p></div>`;
@@ -767,27 +855,39 @@ async function renderPredictions() {
 
     let html = '';
     Object.keys(grouped).sort().forEach(gKey => {
-        html += `<div class="group-section"><div class="group-title">️ ${gKey}</div>`;
+        html += `<div class="group-section"><div class="group-title">🏟️ ${gKey}</div>`;
         grouped[gKey].forEach(m => {
             const matchId = `r${currentRound}_${m.id}`;
             const savedData = roundPreds[matchId];
             const isSaved = isRoundSaved && savedData;
             const hScore = isSaved ? savedData.home : '';
             const aScore = isSaved ? savedData.away : '';
+            
+            // Busca os times do resultado salvo (admin definiu)
+            let homeTeam = m.home || '';
+            let awayTeam = m.away || '';
+            
+            if (currentRound > 0 && realResults[matchId]) {
+                if (realResults[matchId].homeTeam) homeTeam = realResults[matchId].homeTeam;
+                if (realResults[matchId].awayTeam) awayTeam = realResults[matchId].awayTeam;
+            }
+            
+            const hasTeams = homeTeam && awayTeam;
 
             html += `
-            <div class="match-card ${isSaved ? 'saved' : ''}">
-                <div class="match-date">📅 ${m.date} • ${m.time}</div>
+            <div class="match-card ${isSaved ? 'saved' : ''} ${!hasTeams ? 'has-teams' : ''}">
+                <div class="match-date">${m.date} ${m.time ? '• '+m.time : ''}</div>
                 <div class="match-teams">
-                    <div class="team"><span class="flag">${getFlag(m.home)}</span>${m.home}</div>
+                    <div class="team"><span class="flag">${getFlag(homeTeam)}</span>${hasTeams ? homeTeam : 'A definir'}</div>
                     <span class="match-vs">VS</span>
-                    <div class="team"><span class="flag">${getFlag(m.away)}</span>${m.away}</div>
+                    <div class="team"><span class="flag">${getFlag(awayTeam)}</span>${hasTeams ? awayTeam : 'A definir'}</div>
                 </div>
                 <div class="score-inputs">
-                    <input type="number" min="0" max="99" value="${hScore}" id="s_${matchId}_h" ${isRoundSaved ? 'disabled' : ''} placeholder="-">
+                    <input type="number" min="0" max="99" value="${hScore}" id="s_${matchId}_h" ${isRoundSaved || !hasTeams ? 'disabled' : ''} placeholder="-">
                     <span class="vs-text">✕</span>
-                    <input type="number" min="0" max="99" value="${aScore}" id="s_${matchId}_a" ${isRoundSaved ? 'disabled' : ''} placeholder="-">
+                    <input type="number" min="0" max="99" value="${aScore}" id="s_${matchId}_a" ${isRoundSaved || !hasTeams ? 'disabled' : ''} placeholder="-">
                 </div>
+                ${!hasTeams ? '<div class="teams-badge">⏳ Aguardando admin definir os times</div>' : ''}
                 <div class="match-status">✅ Palpite salvo</div>
             </div>`;
         });
@@ -852,6 +952,7 @@ async function calculatePointsForRound(username, roundIndex) {
         const pred = roundPreds[key];
         if (results[key] === undefined) return;
         const res = results[key];
+        if (res.home === undefined || res.away === undefined) return;
         if (pred.home === res.home && pred.away === res.away) {
             total += 3;
         } else if ((pred.home > pred.away && res.home > res.away) || 
@@ -870,18 +971,17 @@ async function showRanking() {
     for (const username of Object.keys(users)) {
         if (username === 'admin') continue;
         const preds = await getUserPredictions(username);
-        const hasAnySaved = preds['round_0']?._saved || preds['round_1']?._saved || preds['round_2']?._saved || preds['round_3']?._saved;
+        const hasAnySaved = preds['round_0']?._saved || preds['round_1']?._saved || preds['round_2']?._saved;
         if (!hasAnySaved) continue;
 
         const r1 = await calculatePointsForRound(username, 0);
         const r2 = await calculatePointsForRound(username, 1);
         const r3 = await calculatePointsForRound(username, 2);
-        const r4 = await calculatePointsForRound(username, 3);
         
         rankings.push({ 
             name: username, 
-            r1, r2, r3, r4,
-            total: r1 + r2 + r3 + r4
+            r1, r2, r3,
+            total: r1 + r2 + r3
         });
     }
 
@@ -897,8 +997,7 @@ async function showRanking() {
             <table class="ranking-table">
                 <thead>
                     <tr>
-                        <th style="text-align:left;"> Usuário</th>
-                        <th>Oitavas</th>
+                        <th style="text-align:left;">👤 Usuário</th>
                         <th>Quartas</th>
                         <th>Semi</th>
                         <th>Final</th>
@@ -908,14 +1007,13 @@ async function showRanking() {
                 <tbody>`;
 
         rankings.forEach((r, i) => {
-            const medal = i===0 ? '🥇' : i===1 ? '' : i===2 ? '🥉' : `${i+1}º`;
+            const medal = i===0 ? '' : i===1 ? '🥈' : i===2 ? '🥉' : `${i+1}º`;
             html += `
                 <tr>
                     <td class="rank-name">${medal} ${r.name}</td>
                     <td class="${r.r1 > 0 ? 'pts-positive' : 'pts-zero'}">${r.r1}</td>
                     <td class="${r.r2 > 0 ? 'pts-positive' : 'pts-zero'}">${r.r2}</td>
                     <td class="${r.r3 > 0 ? 'pts-positive' : 'pts-zero'}">${r.r3}</td>
-                    <td class="${r.r4 > 0 ? 'pts-positive' : 'pts-zero'}">${r.r4}</td>
                     <td class="pts-total">${r.total}</td>
                 </tr>`;
         });
